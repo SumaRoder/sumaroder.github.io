@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+        <script src="https://cdn.staticfile.org/jquery/3.6.0/jquery.min.js"></script>
+        <script src="https://cdn.staticfile.org/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
+        <title>接口列表 | {{ development_name }}</title>
+        <script>
+            var OriginTitile = document.title;
+            var titleTime;
+            document.addEventListener('visibilitychange', function() {
+                if (document.hidden) {
+                    document.title = '(つェ⊂)我藏好了哦~ ' + OriginTitile;
+                    clearTimeout(titleTime);
+                }
+                else {
+                    document.title = '(*´∇｀*) 被你发现啦~ ' + OriginTitile;
+                    titleTime = setTimeout(function() {
+                        document.title = OriginTitile;
+                    }, 2000);
+                }
+            });
+        </script>
+        <link rel="shortcut icon" href="/shares/icons/favicon.ico">
+        <link rel="stylesheet" href="/shares/mdui/1.0.2/css/mdui.min.css">
+        <link rel="stylesheet" href="/shares/css/main.css">
+        <link rel="stylesheet" href="/shares/css/main.personization.css">
+        <meta name="keywords" content="SumaAPI,接口列表,API,SumaRoder">
+        <meta name="description" content="Designed by SumaRoder.">
+        <style>
+            .card{
+                left: 0;
+                margin: auto;
+                padding-left: 5px;
+                height: 145px;
+                width: 91%;
+                border-radius: 20px;
+            }
+            .card .a{
+                float: right;
+                margin-right: 30px;
+            }
+            /* 暗色背景 */
+            .window_bg{
+                /* 默认隐藏 */
+                display: none;
+            	/* 固定定位 */
+            	position: fixed;
+            	/* 设置层级 */
+            	z-index: 1;
+            	/* 背景铺满全屏 */
+            	left: 0;
+            	top: 0;
+            	width: 100%;
+            	height: 100%;
+             	overflow: auto;
+            	background-color: rgba(0, 0, 0, 0.4);
+            }
+            .window_content {
+                background-color: #fefefe;
+                margin: 15% auto; 
+                padding: 20px;
+                border: 1px solid #888;
+                width: 40%;
+                border-radius: 10px; 
+            }
+            #window_text {
+            	padding: 2px;
+            	height: 150px;
+            }
+            .btnBox {
+            	width: 100%;
+            	height: 30%;
+            	border-top: 1px solid;
+            	display: flex;
+            }
+            .btnBox>div {
+            	width: 50%;
+              	display: flex;
+              	justify-content: center;
+            	align-items: center;
+            }
+            center em{
+                font-style: normal;
+                font-weight: bold;
+            }
+            .mc-empty{
+                box-sizing: border-box;
+                width: 100%;
+                margin-top: 80px;
+                padding: 108px 16px 64px;
+                text-align: center;
+                background-repeat: no-repeat;
+                background-position: top;
+            }
+            .mc-empty .title{
+                margin-bottom: 20px;
+                color: rgba(0,0,0,.54);
+                font-size: 18px;
+            }
+            .mc-empty .description{
+                margin-bottom: 20px;
+                color: rgba(0,0,0,.54);
+                font-size: 15px;
+                line-height: 24px;
+            }
+            center em{
+                font-style: normal;
+                font-weight: bold;
+            }
+            section::after {
+                content: "";
+                display: block;
+                height: 100px; /* 调整高度以适应你的需求 */
+            }
+            
+        </style>
+    </head>
+    <body>
+        <script src="/shares/js/click.js"></script>
+        <header id="header">
+            <!--<p id="titleheader" style="font-size: 30px;" href="#">
+                <p id="menu">≡</p>
+                <div class="bg">
+                    <div id="menuWindow" class="menuWindow">
+                        <div class="menuWindow-content">
+                            {% if not apis %}
+                                <div class="mc-empty" style="background-image: url(/shares/mc-empty.png);">
+                    				<div class="title">
+                    					尚未任何接口
+                    				</div>
+                    				<div class="description">
+                    					添加接口后，将显示在这里
+                    				</div>
+                    			</div>
+                			{% else %}
+                                {% for i in apis %}
+                                    <ul class="multilevelMenu">
+                                        <li>{{ i["name"] }}
+                                            <ul class="sub1">
+                                                <li>接口状态
+                                                    <ul class="sub2">
+                                                        <li>
+                                                            {% if i["maintenance"] == 0 %}
+                                                                正常
+                                                            {% elif i["maintenance"] == 1 %}
+                                                                维护
+                                                            {% else %}
+                                                                未知
+                                                            {% endif %}
+                                                        </li>
+                                                    </ul>
+                                                </li>
+                                                <li>接口文档
+                                                    <ul class="sub2">
+                                                        <li>
+                                                            {% if i["maintenance"] == 0 %}
+                                                                <a href="{{ i['src']}}" class="a">前往接口文档</a>
+                                                            {% elif i["maintenance"] == 1 %}
+                                                                <a href="#" onclick="alert('该接口正在维护中')" class="a">前往接口文档</a>
+                                                            {% else %}
+                                                                <a href="#" onclick="alert('该接口异常')" class="a">前往接口文档</a>
+                                                            {% endif %}
+                                                        </li>
+                                                    </ul>
+                                                </li>
+                                            </ul>
+                                        </li>
+                                        <!--<li>菜单2
+                                            <ul class="sub1">
+                                                <li>子菜单2.1</li>
+                                                <li>子菜单2.2</li>
+                                            </ul>
+                                        </li>--
+                                    </ul>
+                                {% endfor %}
+                            {% endif %}
+                            <script>
+                                const menuItems = document.querySelectorAll('.multilevelMenu > li');
+                                menuItems.forEach(item => {
+                                    item.addEventListener('click', () => {
+                                        const submenu1 = item.querySelector('.sub1');
+                                        submenu1.style.display = submenu1.style.display === 'none' ? 'block' : 'none';
+                                
+                                        const submenu2s = item.querySelectorAll('.sub2');
+                                        submenu2s.forEach(submenu2 => {
+                                            submenu2.style.display = 'none';
+                                        });
+                                    });
+                                });
+                            
+                                const submenu1Items = document.querySelectorAll('.sub1 > li');
+                                submenu1Items.forEach(item => {
+                                    item.addEventListener('click', (event) => {
+                                        event.stopPropagation();
+                                        const submenu2 = item.querySelector('.sub2');
+                                        submenu2.style.display = submenu2.style.display === 'none' ? 'block' : 'none';
+                                    });
+                                });
+                            </script>
+                        </div>
+                    </div>
+                </div>
+            </p>-->
+            <p class="title" style="text-align: center;">{{ development_name }}</p>
+            <p style="float: right;top: 0;bottom: 0;margin-bottom: 20px;position: absolute;top: 35%;left: 90%;transform: translate(-90%, -50%);" id="openBtn">主题</p>
+            <div id="popup" class="popup">
+                <div class="popup-content">
+                    <p>请选择模式：</p>
+                    <button id="lightModeBtn">亮色模式</button>
+                    <button id="darkModeBtn">暗色模式</button>
+                </div>
+            </div>
+        </header>
+        <header id="header0">
+            
+        </header>
+        <script>
+            var HeadBar = document.getElementById("header");
+            var HeadBar0 = document.getElementById("header0");
+            window.addEventListener("scroll", function() {
+                if (window.scrollY > 0) {
+                    HeadBar.classList.add("scroll");
+                    if (window.scrollY >= 61) {
+                        HeadBar0.style.top = "0";
+                        HeadBar0.style.position = "fixed";
+                    } else {
+                        HeadBar0.style.position = "absolute";
+                        HeadBar0.style.top = "61px";
+                    }
+                } else {
+                    HeadBar.classList.remove("scroll");
+                    HeadBar0.style.position = "absolute";
+                    HeadBar0.style.top = "61px";
+                }
+            });
+        </script>
+        <section>
+            <!--<div class="window_bg">
+                <!-- 弹窗内容 -- >
+            	<div class="window_content">
+            		<p id="window_text">欢迎！</p>
+            	</div>
+            </div>-->
+            <div id="activitycontent" class="fade-in">
+                <div style="color: white;width: 100%;font-weight: normal;text-align: center;margin-top: 55px;padding-top: 85px;height: 200px;background: url(/shares/1.jpeg) no-repeat;background-size: cover;">
+                    <h2>SumaAPI<h2>
+                    <p>
+                        {{ hitokoto }}
+                    </p>
+                </div>
+                <span class="gradient-text"></span>
+                <div style="padding-top: 5px;"></div>
+                <div>
+                    {% if not apis %}
+                        <div class="mc-empty" style="background-image: url(/shares/mc-empty.png);">
+            				<div class="title">
+            					尚未任何接口
+            				</div>
+            				<div class="description">
+            					添加接口后，将显示在这里
+            				</div>
+            			</div>
+        			{% else %}
+                        {% for i in apis %}
+                            <div class="card">
+                                <div class="interface_status">
+                                    {% if i["maintenance"] == 0 %}
+                                        <h3 style="font-size: 28px;font-weight: 450;padding-top: 35px;">{{ i["name"] }}<em style="display: inline-block;font-size: 15px;background-color: #90EE90;border-radius: 5px;margin: 2px;font-style: normal;">正常</em></h3>
+                                    {% elif i["maintenance"] == 1 %}
+                                        <h3 style="font-size: 28px;font-weight: 450;padding-top: 35px;">{{ i["name"] }}<em style="display: inline-block;font-size: 15px;background-color: red;border-radius: 5px;margin: 2px;font-style: normal;">维护</em></h3>
+                                    {% else %}
+                                        <h3 style="font-size: 28px;font-weight: 450;padding-top: 35px;">{{ i["name"] }}<em style="display: inline-block;font-size: 15px;background-color: yellow;border-radius: 5px;margin: 2px;font-style: normal;">未知</em></h3>
+                                    {% endif %}
+                                </div>
+                                <p>{{ i["desc"] }}</p>
+                                {% if i["maintenance"] == 0 %}
+                                    <a href="{{ i['src']}}" class="a">More</a>
+                                {% elif i["maintenance"] == 1 %}
+                                    <a href="#" onclick="alert('该接口正在维护中')" class="a">More</a>
+                                {% else %}
+                                    <a href="#" onclick="alert('该接口异常')" class="a">More</a>
+                                {% endif %}
+                            </div>
+                        {% endfor %}
+                    {% endif %}
+                </div>
+            </div>
+        </section>
+        <footer>
+            <center style="margin-top: 5px;margin-bottom: 15px;font-size: 10px;">
+                Copyright © <em>SumaAPI</em><br/>All rights reserved. <img src="/favicon.ico" style="width: 10px;height: 10px;border-radius: 50%;" /><em>SumaRoder</em><br/>
+                <img src="/shares/fastapi_logo.png" style="height: 25px;" />
+            </center>
+        </footer>
+        <script src="/shares/js/main.js"></script>
+        <script>
+            if ($.cookie('theme2') === 'dark-mode') {
+                $('body').addClass('dark-mode');
+            } else {
+                $('body').addClass('light-mode');
+            }
+        </script>
+    </body>
+</html>
