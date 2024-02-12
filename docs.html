@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width">
+        <script src="https://cdn.staticfile.org/jquery/3.5.1/jquery.min.js"></script>
+        <script src="https://cdn.staticfile.org/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
+        <title>{{ apiname }} | {{ development_name }}</title>
+        <script>
+            var OriginTitile = document.title;
+            var titleTime;
+            document.addEventListener('visibilitychange', function() {
+                if (document.hidden) {
+                    document.title = '(つェ⊂)我藏好了哦~ ' + OriginTitile;
+                    clearTimeout(titleTime);
+                }
+                else {
+                    document.title = '(*´∇｀*) 被你发现啦~ ' + OriginTitile;
+                    titleTime = setTimeout(function() {
+                        document.title = OriginTitile;
+                    }, 2000);
+                }
+            });
+        </script>
+        <link rel="shortcut icon" href="/shares/icons/favicon.ico">
+        <link rel="stylesheet" href="/shares/mdui/1.0.2/css/mdui.min.css">
+        <link rel="stylesheet" href="/shares/css/main.css">
+        <link rel="stylesheet" href="/shares/css/main.personization.css">
+        <meta name="keywords" content="SumaAPI,接口列表,API,SumaRoder">
+        <meta name="description" content="{{ apidesc }}\nDesigned by SumaRoder.">
+        <style>
+            @font-face {
+                font-family: 'JetBrains Mono';
+                src: url('/shares/jetbrainsmono.woff2') format('woff2'), url('/shares/jetbrainsmono.ttf') format('truetype');
+                font-weight: normal;
+                font-style: normal;
+            }
+            .code-container {
+                text-align: left;
+                left: 0;
+                background-color: #363636;
+                color: white;
+                border: 1px solid #ddd;
+                padding: 2px;
+                width: 80%;
+                margin: auto;
+                overflow: auto;
+                height: 250px;
+                border-radius: 5px;
+            }
+            .code-container code {
+                counter-reset: line-number;
+            }
+            .code-container span {
+                font-family: 'JetBrains Mono' !important;
+                display: block;
+                counter-increment: line-number;
+            }
+            .code-container span:before {
+                content: counter(line-number);
+                display: inline-block;
+                width: 1em;
+                text-align: right;
+                margin-right: 1em;
+                color: #999;
+            }
+            .code-container span .red {
+                color: #EE6363;
+            }
+            .code-container span .blue {
+                color: #00BFFF;
+            }
+            .code-container span .orange {
+                color: #FFB90F;
+            }
+            .code-container span .green {
+                color: #9ACD32;
+            }
+            table{
+                float: left;
+                position: relative;
+                margin: auto;
+                padding: auto;
+                width: 100%;
+                border-radius: 4px;
+                border: 1px solid rgba(5,7,15,0.75);
+                text-align: center;
+                overflow: scroll;
+                border-collapse: collapse;
+            }
+            td{
+                border-radius: 4px;
+                border: 0px;
+                width: 80px;
+                height: 20px;
+            }
+            td em{
+                font-style: normal;
+                background-color: pink;
+                color: darkred;
+                border-radius: 4px;
+                margin: 1px 4px;
+            }
+            tr{
+                border-radius: 4px;
+                border: 1px solid black;
+            }
+            center em{
+                font-style: normal;
+                font-weight: bold;
+            }
+        </style>
+    </head>
+    <body>
+        <script src="/shares/js/click.js"></script>
+        <header id="header">
+            <!--<p id="titleheader" style="font-size: 30px;" href="#">
+                <div id="menu">≡</div>
+                <div class="bg">
+                    <div id="menuWindow" class="menuWindow">
+                        <div class="menuWindow-content">
+                            <p>你好</p>
+                        </div>
+                    </div>
+                </div>
+            </p>-->
+            <p class="title" style="text-align: center;">{{ development_name }}</p>
+            <p style="float: right;top: 0;bottom: 0;margin-bottom: 20px;position: absolute;top: 35%;left: 90%;transform: translate(-90%, -50%);" id="openBtn">主题</p>
+            <div id="popup" class="popup">
+                <div class="popup-content">
+                    <p>请选择模式：</p>
+                    <button id="lightModeBtn">亮色模式</button>
+                    <button id="darkModeBtn">暗色模式</button>
+                </div>
+            </div>
+        </header>
+        <header id="header0">
+            
+        </header>
+        <script>
+            var HeadBar = document.getElementById("header");
+            var HeadBar0 = document.getElementById("header0");
+            window.addEventListener("scroll", function() {
+                if (window.scrollY > 0) {
+                    HeadBar.classList.add("scroll");
+                    if (window.scrollY >= 60) {
+                        HeadBar0.style.top = "0";
+                        HeadBar0.style.position = "fixed";
+                    } else {
+                        HeadBar0.style.position = "absolute";
+                        HeadBar0.style.top = "60px";
+                    }
+                } else {
+                    HeadBar.classList.remove("scroll");
+                    HeadBar0.style.position = "absolute";
+                    HeadBar0.style.top = "60px";
+                }
+            });
+        </script>
+        <section>
+            <!--<div id="music" key="606e5a8824639" api="https://music.xfyun.club"></div>
+            <script id="xplayer" src="https://player.xfyun.club/Static/player9/js/player.js" ></script>-->
+            <div id="activitycontent" class="fade-in">
+                <div style="color: white;width: 100%;font-weight: normal;text-align: center;margin-top: 55px;padding-top: 85px;height: 200px;background: url(/shares/1.jpeg) no-repeat;background-size: cover;">
+                    <h2>{{ apiname }}<h2>
+                    <p>{{ apidesc }}</p>
+                </div>
+                <div class="card" style="height: 790px;padding-top: 10px;">
+                    <p style="">链接: {{ apiurl }}<p>
+                    <table cellspacing="0">
+                        <tbody>
+                            <tr>
+                                <td>参数名称</td>
+                                <td>参数类型</td>
+                                <td>是否必填</td>
+                                <td>参数介绍</td>
+                            </tr>
+                            {% for i in datas %}
+                                <tr>
+                                    <td><em>{{ i["name"] }}</em></td>
+                                    <td><em>{{ i["type"] }}</em></td>
+                                    <td>{{ i["required"] }}</td>
+                                    <td>{{ i["desc"] }}</td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                        <colgroup>
+                            <col>
+                            <col>
+                            <col>
+                            <col>
+                        </colgroup>
+                    </table>
+                    <p style="">返回示例: <p>
+                    <div class="code-container">
+                        <pre><code>{% for i in apiresponse %}<span>{{ i }}</span>{% endfor %}</code></pre>
+                    </div>
+                    <p style="">示例代码: <p>
+                    <div class="code-container">
+                        <pre><code>{% for i in example_code %}<span>{{ i }}</span>{% endfor %}</code></pre>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <footer>
+            <center style="margin-top: 15px;margin-bottom: 15px;font-size: 10px;">
+                Copyright © <em>SumaAPI</em><br/>All rights reserved. <img src="/favicon.ico" style="width: 10px;height: 10px;border-radius: 50%;" /><em>SumaRoder</em><br/>
+                <img src="/shares/fastapi_logo.png" style="height: 25px;" />
+            </center>
+        </footer>
+        <script src="/shares/js/main.js"></script>
+        <script>
+            if ($.cookie('theme') === 'dark-mode') {
+                $('body').addClass('dark-mode');
+            } else {
+                $('body').addClass('light-mode');
+            }
+        </script>
+    </body>
+</html>
+                

@@ -1,0 +1,2062 @@
+<?xml version="1.0" encoding="UTF-8"?><rss version="2.0"
+	xmlns:content="http://purl.org/rss/1.0/modules/content/"
+	xmlns:wfw="http://wellformedweb.org/CommentAPI/"
+	xmlns:dc="http://purl.org/dc/elements/1.1/"
+	xmlns:atom="http://www.w3.org/2005/Atom"
+	xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
+	xmlns:slash="http://purl.org/rss/1.0/modules/slash/"
+	>
+
+<channel>
+	<title>Pinpe的云端</title>
+	<atom:link href="https://blog.pinpe.top/feed/" rel="self" type="application/rss+xml" />
+	<link>https://blog.pinpe.top</link>
+	<description></description>
+	<lastBuildDate>Wed, 08 Nov 2023 15:06:05 +0000</lastBuildDate>
+	<language>zh-CN</language>
+	<sy:updatePeriod>
+	hourly	</sy:updatePeriod>
+	<sy:updateFrequency>
+	1	</sy:updateFrequency>
+	<generator>https://wordpress.org/?v=6.4.1</generator>
+	<item>
+		<title>使用Python制作属于自己的静态页面生成器</title>
+		<link>https://blog.pinpe.top/%e4%bd%bf%e7%94%a8python%e5%88%b6%e4%bd%9c%e5%b1%9e%e4%ba%8e%e8%87%aa%e5%b7%b1%e7%9a%84%e9%9d%99%e6%80%81%e9%a1%b5%e9%9d%a2%e7%94%9f%e6%88%90%e5%99%a8/</link>
+					<comments>https://blog.pinpe.top/%e4%bd%bf%e7%94%a8python%e5%88%b6%e4%bd%9c%e5%b1%9e%e4%ba%8e%e8%87%aa%e5%b7%b1%e7%9a%84%e9%9d%99%e6%80%81%e9%a1%b5%e9%9d%a2%e7%94%9f%e6%88%90%e5%99%a8/#respond</comments>
+		
+		<dc:creator><![CDATA[Pinpe]]></dc:creator>
+		<pubDate>Thu, 26 Oct 2023 14:30:51 +0000</pubDate>
+				<category><![CDATA[教程/科普]]></category>
+		<guid isPermaLink="false">https://blog.pinpe.top/?p=1438</guid>
+
+					<description><![CDATA[博客网站的结构很简单，大概只有三种页面类型：链接到文章和页面的主页、文章页面、独立页面。 如果要求不高，其中文 [&#8230;]]]></description>
+										<content:encoded><![CDATA[
+<p>博客网站的结构很简单，大概只有三种页面类型：链接到文章和页面的主页、文章页面、独立页面。</p>
+
+
+
+<p>如果要求不高，其中文章页面、独立页面可以合并成一个页面类型。因此最多只需要写2个Python脚本就够了。</p>
+
+
+
+<h3 class="wp-block-heading">创建主页文件.py</h3>
+
+
+
+<p>主页文件只有两个功能：显示博客名称、显示和链接文章或其它页面。</p>
+
+
+
+<p>但是首先，必须要输入数据才能生成吧？因此需要一个字符串变量和一个列表变量，在里面填写数据：</p>
+
+
+
+<pre class="wp-block-code"><code># 数据输入
+博客标题 = ''
+文章列表 = &#91;
+    ''
+]</code></pre>
+
+
+
+<p>然后就可以创建<code>index.html</code>文件了，方便生成页面：</p>
+
+
+
+<pre class="wp-block-code"><code># 数据输入
+博客标题 = ''
+文章列表 = &#91;
+    ''
+]
+
+# 创建文件
+index = open('index.html', 'w', encoding='utf-8')</code></pre>
+
+
+
+<p>通常来说，HTML头部的部分是可以一成不变的，因此只需要把一些字符用变量替代就可以了：</p>
+
+
+
+<pre class="wp-block-code"><code># 数据输入
+博客标题 = ''
+文章列表 = &#91;
+    ''
+]
+
+# 创建文件
+index = open('index.html', 'w', encoding='utf-8')
+
+# 生成头部部分
+index.write(
+f'''
+&lt;html>
+    &lt;head>
+        &lt;meta charset="UTF-8">
+        &lt;meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=0.5, maximum-scale=2.0, user-scalable=yes" /> 
+        &lt;title>{博客标题}&lt;/title>
+    &lt;/head>
+    &lt;body>
+        &lt;h1>{博客标题}&lt;/h1>
+        &lt;hr>
+''')</code></pre>
+
+
+
+<p>然后就可以生成页面的主体，最简单的方法是使用<code>for</code>遍历文章列表，中间用再把一些字符用变量替代，中间用<code>&lt;hr></code>分割：</p>
+
+
+
+<pre class="wp-block-code"><code># 数据输入
+博客标题 = ''
+文章列表 = &#91;
+    ''
+]
+
+# 创建文件
+index = open('index.html', 'w', encoding='utf-8')
+
+# 生成头部部分
+index.write(
+f'''
+&lt;html>
+    &lt;head>
+        &lt;meta charset="UTF-8">
+        &lt;meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=0.5, maximum-scale=2.0, user-scalable=yes" /> 
+        &lt;title>{博客标题}&lt;/title>
+    &lt;/head>
+    &lt;body>
+        &lt;h1>{博客标题}&lt;/h1>
+        &lt;hr>
+''')
+
+# 生成文章列表
+for text in 文章列表:
+    index.write(
+    f'''
+        &lt;h2>&lt;a href="{text}.html">{text}&lt;/a>&lt;/h2>
+        &lt;hr>
+    ''')</code></pre>
+
+
+
+<p>最后，再来一个<s>华丽的</s>收尾：</p>
+
+
+
+<pre class="wp-block-code"><code># 数据输入
+博客标题 = ''
+文章列表 = &#91;
+    ''
+]
+
+# 创建文件
+index = open('index.html', 'w', encoding='utf-8')
+
+# 生成头部部分
+index.write(
+f'''
+&lt;html>
+    &lt;head>
+        &lt;meta charset="UTF-8">
+        &lt;meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=0.5, maximum-scale=2.0, user-scalable=yes" /> 
+        &lt;title>{博客标题}&lt;/title>
+    &lt;/head>
+    &lt;body>
+        &lt;h1>{博客标题}&lt;/h1>
+        &lt;hr>
+''')
+
+# 生成文章列表
+for text in 文章列表:
+    index.write(
+    f'''
+        &lt;h2>&lt;a href="{text}.html">{text}&lt;/a>&lt;/h2>
+        &lt;hr>
+    ''')
+
+# 生成页尾部分
+index.write(
+f'''
+    &lt;/body>
+&lt;/html>
+''')</code></pre>
+
+
+
+<p>输入以下数据时，效果是这样的：</p>
+
+
+
+<pre class="wp-block-code"><code>博客标题 = 'Pinpe 的博客'
+文章列表 = &#91;
+    '一个月的网站更新日志',
+    '配置对话式关于页面',
+    '【多图预警】国庆节我去哪了？'
+]</code></pre>
+
+
+
+<figure class="wp-block-image size-large"><img fetchpriority="high" decoding="async" width="1024" height="510" src="https://blog.pinpe.top/wp-content/uploads/2023/10/屏幕截图-2023-10-26-215749-1024x510.png" alt="" class="wp-image-1454" srcset="https://blog.pinpe.top/wp-content/uploads/2023/10/屏幕截图-2023-10-26-215749-1024x510.png 1024w, https://blog.pinpe.top/wp-content/uploads/2023/10/屏幕截图-2023-10-26-215749-300x149.png 300w, https://blog.pinpe.top/wp-content/uploads/2023/10/屏幕截图-2023-10-26-215749-768x382.png 768w, https://blog.pinpe.top/wp-content/uploads/2023/10/屏幕截图-2023-10-26-215749-1536x765.png 1536w, https://blog.pinpe.top/wp-content/uploads/2023/10/屏幕截图-2023-10-26-215749.png 1856w" sizes="(max-width: 1024px) 100vw, 1024px" /></figure>
+
+
+
+<pre class="wp-block-code"><code>
+&lt;html>
+    &lt;head>
+        &lt;meta charset="UTF-8">
+        &lt;meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=0.5, maximum-scale=2.0, user-scalable=yes" /> 
+        &lt;title>Pinpe 的博客&lt;/title>
+    &lt;/head>
+    &lt;body>
+        &lt;h1>Pinpe 的博客&lt;/h1>
+        &lt;hr>
+
+        &lt;h2>&lt;a href="一个月的网站更新日志.html">一个月的网站更新日志&lt;/a>&lt;/h2>
+        &lt;hr>
+    
+        &lt;h2>&lt;a href="配置对话式关于页面.html">配置对话式关于页面&lt;/a>&lt;/h2>
+        &lt;hr>
+    
+        &lt;h2>&lt;a href="【多图预警】国庆节我去哪了？.html">【多图预警】国庆节我去哪了？&lt;/a>&lt;/h2>
+        &lt;hr>
+    
+    &lt;/body>
+&lt;/html>
+</code></pre>
+
+
+
+<h3 class="wp-block-heading">创建文章或页面文件.py</h3>
+
+
+
+<p>需要一个单行字符串变量和一个多行字符串变量：</p>
+
+
+
+<pre class="wp-block-code"><code># 数据输入
+文章或页面标题 = ''
+内容 = '''
+
+'''</code></pre>
+
+
+
+<p>创建的文件名就是文章/页面标题：</p>
+
+
+
+<pre class="wp-block-code"><code># 数据输入
+文章或页面标题 = ''
+内容 = '''
+
+'''
+
+# 创建文件
+page = open(f'{文章或页面标题}.html', 'w', encoding='utf-8')</code></pre>
+
+
+
+<p>然后更加简单了，只需要对变量替换就可以实现：</p>
+
+
+
+<pre class="wp-block-code"><code># 数据输入
+文章或页面标题 = ''
+内容 = '''
+
+'''
+
+# 创建文件
+page = open(f'{文章或页面标题}.html', 'w', encoding='utf-8')
+
+# 生成页面
+page.write(
+f'''
+&lt;html>
+    &lt;head>
+        &lt;meta charset="UTF-8">
+        &lt;meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=0.5, maximum-scale=2.0, user-scalable=yes" /> 
+        &lt;title>{文章或页面标题}&lt;/title>
+    &lt;/head>
+    &lt;body>
+        &lt;h1>{文章或页面标题}&lt;/h1>
+        &lt;hr>
+        {内容}
+    &lt;/body>
+&lt;/html>
+''')</code></pre>
+
+
+
+<p>输入以下数据时，效果是这样的：</p>
+
+
+
+<pre class="wp-block-code"><code>文章或页面标题 = '外国中文研究史'
+内容 = '''
+早期官话的第一部系统著作，是医学博士雷慕沙在1822年以法语撰的《汉文启蒙》（Élémens de La Grammaire Chinoise），他对官话语法的理解远远超越18世纪的不成熟之作，而且是第一部摆脱了以拉丁语的语法概念硬套在汉语的汉语语法书，是世界对汉语研究的转捩点之作。稍早，18世纪有两部不成熟的著作：道明会会士瓦罗以西班牙语撰的《华语官话语法》（Arte de la Lengua Mandarina）主述南京官话的词类，惟语法的篇幅仅30页，1682年在福州府写成手抄本小量流传，1703年在广州印刷，是第一部流传于世的官话语法；然后有法国耶稣会会士马若瑟以拉丁语撰的《汉语札记》（Notitia Lingae Sinicae），大量梳理文言文和南京官话的词类用例，但未有系统总结语法规则，不足称为语法书，该书在1728年以手抄本小量流传。&lt;br>
+如果算上失传之作，西班牙道明会在16~17世纪菲律宾写成数十部已失传的官话语法及闽南语语法书。该系列有一本1620年的《漳州话语法》（Arte de la Lengua Chio Chiu）幸存，乃现存最早的汉语语法书。
+'''</code></pre>
+
+
+
+<figure class="wp-block-image size-large"><img decoding="async" width="1024" height="509" src="https://blog.pinpe.top/wp-content/uploads/2023/10/屏幕截图-2023-10-26-222149-1024x509.png" alt="" class="wp-image-1460" srcset="https://blog.pinpe.top/wp-content/uploads/2023/10/屏幕截图-2023-10-26-222149-1024x509.png 1024w, https://blog.pinpe.top/wp-content/uploads/2023/10/屏幕截图-2023-10-26-222149-300x149.png 300w, https://blog.pinpe.top/wp-content/uploads/2023/10/屏幕截图-2023-10-26-222149-768x382.png 768w, https://blog.pinpe.top/wp-content/uploads/2023/10/屏幕截图-2023-10-26-222149-1536x763.png 1536w, https://blog.pinpe.top/wp-content/uploads/2023/10/屏幕截图-2023-10-26-222149.png 1856w" sizes="(max-width: 1024px) 100vw, 1024px" /></figure>
+
+
+
+<pre class="wp-block-code"><code>
+&lt;html>
+    &lt;head>
+        &lt;meta charset="UTF-8">
+        &lt;meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=0.5, maximum-scale=2.0, user-scalable=yes" /> 
+        &lt;title>外国中文研究史&lt;/title>
+    &lt;/head>
+    &lt;body>
+        &lt;h1>外国中文研究史&lt;/h1>
+        &lt;hr>
+        
+早期官话的第一部系统著作，是医学博士雷慕沙在1822年以法语撰的《汉文启蒙》（Élémens de La Grammaire Chinoise），他对官话语法的理解远远超越18世纪的不成熟之作，而且是第一部摆脱了以拉丁语的语法概念硬套在汉语的汉语语法书，是世界对汉语研究的转捩点之作。稍早，18世纪有两部不成熟的著作：道明会会士瓦罗以西班牙语撰的《华语官话语法》（Arte de la Lengua Mandarina）主述南京官话的词类，惟语法的篇幅仅30页，1682年在福州府写成手抄本小量流传，1703年在广州印刷，是第一部流传于世的官话语法；然后有法国耶稣会会士马若瑟以拉丁语撰的《汉语札记》（Notitia Lingae Sinicae），大量梳理文言文和南京官话的词类用例，但未有系统总结语法规则，不足称为语法书，该书在1728年以手抄本小量流传。&lt;br>
+如果算上失传之作，西班牙道明会在16~17世纪菲律宾写成数十部已失传的官话语法及闽南语语法书。该系列有一本1620年的《漳州话语法》（Arte de la Lengua Chio Chiu）幸存，乃现存最早的汉语语法书。
+
+    &lt;/body>
+&lt;/html>
+</code></pre>
+
+
+
+<h3 class="wp-block-heading">文件下载</h3>
+
+
+
+<p>所有使用的脚本：</p>
+
+
+
+<div class="wp-block-file"><a id="wp-block-file--media-d8a65bde-e553-4145-9778-f511589b872f" href="https://blog.pinpe.top/wp-content/uploads/2023/10/页面生成器.zip">页面生成器</a><a href="https://blog.pinpe.top/wp-content/uploads/2023/10/页面生成器.zip" class="wp-block-file__button wp-element-button" download aria-describedby="wp-block-file--media-d8a65bde-e553-4145-9778-f511589b872f">下载</a></div>
+]]></content:encoded>
+					
+					<wfw:commentRss>https://blog.pinpe.top/%e4%bd%bf%e7%94%a8python%e5%88%b6%e4%bd%9c%e5%b1%9e%e4%ba%8e%e8%87%aa%e5%b7%b1%e7%9a%84%e9%9d%99%e6%80%81%e9%a1%b5%e9%9d%a2%e7%94%9f%e6%88%90%e5%99%a8/feed/</wfw:commentRss>
+			<slash:comments>0</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>光明之下</title>
+		<link>https://blog.pinpe.top/%e5%85%89%e6%98%8e%e4%b9%8b%e4%b8%8b/</link>
+					<comments>https://blog.pinpe.top/%e5%85%89%e6%98%8e%e4%b9%8b%e4%b8%8b/#respond</comments>
+		
+		<dc:creator><![CDATA[Pinpe]]></dc:creator>
+		<pubDate>Wed, 25 Oct 2023 14:22:59 +0000</pubDate>
+				<category><![CDATA[文章]]></category>
+		<guid isPermaLink="false">https://blog.pinpe.top/?p=1206</guid>
+
+					<description><![CDATA[怀揣忐忑但期待的心情，我敲响了过道里的房门。现在已经是冬天了，晚上真的非常冷，以至于我穿着羽绒服也有些发抖。不 [&#8230;]]]></description>
+										<content:encoded><![CDATA[
+<div class="wp-block-argon-admonition admonition shadow-sm" style="border-left-color:#7889e8"><div class="admonition-body">此文经过AI润色，但未改变原意。</div></div>
+
+
+
+<p>怀揣忐忑但期待的心情，我敲响了过道里的房门。现在已经是冬天了，晚上真的非常冷，以至于我穿着羽绒服也有些发抖。不久之后，门开了，我终于见到了Nakki，她非常高兴地欢迎道：</p>
+
+
+
+<p>“欢迎！你今天来得比预定时间早啊。”</p>
+
+
+
+<p>“是的，今天交通没有拥堵。”</p>
+
+
+
+<p>“请进，从XX市到这里还是比较远的，你一定很累了吧？我为你准备了晚饭，还有用的床垫。”</p>
+
+
+
+<p>然而，他的住所让我大失所望——只有几平米的小房间，甚至没有空调，房间里一点人的气息都没有，连窗户上都没有起雾。我看了看她准备的晚饭，只是一桶即将过期的方便面。</p>
+
+
+
+<p>“我这里真的没有什么吃的了，很多食物都已经过期了，好不容易才找到这个能吃的……”</p>
+
+
+
+<p>“那么，为什么这里没有空调？”</p>
+
+
+
+<p>“因为我们不需要。”她有些不好意思地笑着，“主要是…我们无法直接感知温度。”</p>
+
+
+
+<p>算了，就这样吧，毕竟几天后就要离开了。</p>
+
+
+
+<div style="height:43px" aria-hidden="true" class="wp-block-spacer"></div>
+
+
+
+<p>第二天，整个天空都是阴沉的，像一幅巨大的水墨画。</p>
+
+
+
+<p>我跟着她走了一段路，来到了一栋较大的建筑前，我明白，这就是社团了。</p>
+
+
+
+<p>进入社团，里面的环境还不错，有暖气，整洁干净。可惜有些地方我们无法进入。</p>
+
+
+
+<p>当我欣赏周围的陈设时，突然发现周围的人用异样的眼光看着我们，还有一些低声细语。此地本来人就不多，现在更显得安静而诡异。</p>
+
+
+
+<p>她大声说道：“不要害怕，这个人只是来参观的，非常友好，大家无视就行。”之后她小声地对我说：“这里的一些人对人类有一些偏见，你跟着我。”果然她的话起了作用，氛围好转了一些。</p>
+
+
+
+<p>在我拜访她之前，我对她进行了调查，她在这个社团地位很高，不仅是一个小团队的负责人，还是文宣部的主管，真是少有的如此成功的人。</p>
+
+
+
+<p>我跟着她转了一圈，也没有看到什么特别吸引人的东西。</p>
+
+
+
+<p>到了午饭时间，她不让我去外面的饭馆吃，而是带我去了离家不远的超市买了一些面包之类的食物，回到家里吃，她说：“外面太危险了。”</p>
+
+
+
+<p>我觉得有些奇怪，便在吃饭的时候询问了她的经历。</p>
+
+
+
+<div style="height:43px" aria-hidden="true" class="wp-block-spacer"></div>
+
+
+
+<p>我本来是一名城市服务项目的成员，由政府设立。我的工作很简单，每天只需准时外出巡逻，发现需要帮助的人们就采取相应的措施。而且每个月可以获得数百元的报销。由于工作特殊，在外人看来反而像是在逛街，因此被称为“氛围组”。</p>
+
+
+
+<p>这个工作还分配住处，不过只是一间几平米的小房间，没有窗户，湿气很重，墙角都是发霉的。我觉得在这里呆久了会影响身体，于是“省吃俭用”贷款买了别的房间。</p>
+
+
+
+<p>我当时认为人类是最好的，因此我把最大的热心和努力都用来造福人类，不惜一切代价。直到那一天下午&#8230;</p>
+]]></content:encoded>
+					
+					<wfw:commentRss>https://blog.pinpe.top/%e5%85%89%e6%98%8e%e4%b9%8b%e4%b8%8b/feed/</wfw:commentRss>
+			<slash:comments>0</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>配置对话式关于页面</title>
+		<link>https://blog.pinpe.top/%e9%85%8d%e7%bd%ae%e5%af%b9%e8%af%9d%e5%bc%8f%e5%85%b3%e4%ba%8e%e9%a1%b5%e9%9d%a2/</link>
+					<comments>https://blog.pinpe.top/%e9%85%8d%e7%bd%ae%e5%af%b9%e8%af%9d%e5%bc%8f%e5%85%b3%e4%ba%8e%e9%a1%b5%e9%9d%a2/#comments</comments>
+		
+		<dc:creator><![CDATA[Pinpe]]></dc:creator>
+		<pubDate>Wed, 11 Oct 2023 13:25:52 +0000</pubDate>
+				<category><![CDATA[教程/科普]]></category>
+		<guid isPermaLink="false">https://blog.pinpe.top/?p=1367</guid>
+
+					<description><![CDATA[最近关于页更新了，使用了一个很新颖的对话式UI，有聊天的感觉，不再是枯燥的页面。 感谢汤包 – 砂糖站 (ta [&#8230;]]]></description>
+										<content:encoded><![CDATA[
+<p>最近关于页更新了，使用了一个很新颖的对话式UI，有聊天的感觉，不再是枯燥的页面。</p>
+
+
+
+<figure class="wp-block-image size-full"><img decoding="async" width="1025" height="637" src="https://blog.pinpe.top/wp-content/uploads/2023/10/屏幕截图-2023-10-10-232444.png" alt="" class="wp-image-1388" srcset="https://blog.pinpe.top/wp-content/uploads/2023/10/屏幕截图-2023-10-10-232444.png 1025w, https://blog.pinpe.top/wp-content/uploads/2023/10/屏幕截图-2023-10-10-232444-300x186.png 300w, https://blog.pinpe.top/wp-content/uploads/2023/10/屏幕截图-2023-10-10-232444-768x477.png 768w" sizes="(max-width: 1025px) 100vw, 1025px" /></figure>
+
+
+
+<p>感谢<a href="https://blog.tangbao.ltd/">汤包 – 砂糖站 (tangbao.ltd)</a>的技术支持。</p>
+
+
+
+<h3 class="wp-block-heading">环境搭建</h3>
+
+
+
+<p>很简单，在网站文件夹下创建<code>botui.min.css</code>、<code>botui-theme-default.css</code>、<code>botui.js</code>和<code>dialogue.js</code>，并且导入以下代码：</p>
+
+
+
+<h4 class="wp-block-heading">botui.min.css</h4>
+
+
+
+<pre class="wp-block-code"><code>/*
+ * botui 0.3.9
+ * A JS library to build the UI for your bot
+ * https://botui.org
+ *
+ * Copyright 2019, Moin Uddin
+ * Released under the MIT license.
+*/
+
+a.botui-message-content-link:focus{outline:thin dotted}a.botui-message-content-link:focus:active,a.botui-message-content-link:focus:hover{outline:0}form.botui-actions-text{margin:0}button.botui-actions-buttons-button,input.botui-actions-text-input{margin:0;font-size:100%;line-height:normal;vertical-align:baseline}button.botui-actions-buttons-button::-moz-focus-inner,input.botui-actions-text-input::-moz-focus-inner{border:0;padding:0}button.botui-actions-buttons-button{cursor:pointer;-webkit-appearance:button}
+.botui-app-container{width:100%;height:100%;line-height:1}@media (min-width:400px){.botui-app-container{width:400px;height:500px;margin:0 auto}}.botui-container{width:100%;height:100%;overflow-y:auto;overflow-x:hidden}.botui-message{margin:10px 0;min-height:20px}.botui-message:after{display:block;content:"";clear:both}.botui-message-content{width:auto;max-width:75%;display:inline-block}.botui-message-content.human{float:right}.botui-message-content iframe{width:100%}.botui-message-content-image{margin:5px 0;display:block;max-width:200px;max-height:200px}.botui-message-content-link{text-decoration:underline}.profil{position:relative;border-radius:50%}.profil.human{float:right;margin-left:5px}.profil.agent{float:left;margin-right:5px}.profil&gt;img{width:26px;height:26px;border:2px solid #e8e8e8}.profil&gt;img.agent{content:url(https://decodemoji.com/img/logos/blue_moji_hat.svg);border-radius:50%}button.botui-actions-buttons-button{margin-top:10px;margin-bottom:10px}button.botui-actions-buttons-button:not(:last-child){margin-right:10px}@media (min-width:400px){.botui-actions-text-submit{display:none}}</code></pre>
+
+
+
+<h4 class="wp-block-heading">botui-theme-default.css</h4>
+
+
+
+<pre class="wp-block-code"><code>@import url(https://fonts.googleapis.com/css?family=Open+Sans);.botui-container{font-size:14px;font-family:"Open Sans",sans-serif}.botui-messages-container{padding:10px 20px}.botui-actions-container{padding:10px 20px}.botui-message{min-height:30px}.botui-message-content{padding:7px 13px;border-radius:15px;color:#595a5a;background-color:#ebebeb}.botui-message-content.human{color:#f7f8f8;background-color:#919292}.botui-message-content.text{line-height:1.3}.botui-message-content.loading{background-color:rgba(206,206,206,.5);line-height:1.3;text-align:center}.botui-message-content.embed{padding:5px;border-radius:5px}.botui-message-content-link{color:#919292}.botui-actions-text-input{border:0;outline:0;border-radius:0;padding:5px 7px;font-family:"Open Sans",sans-serif;background-color:transparent;color:#595a5a;border-bottom:1px solid #919292}.botui-actions-text-submit{color:#fff;width:30px;padding:5px;height:30px;line-height:1;border-radius:50%;border:1px solid #919292;background:#777979}.botui-actions-buttons-button{border:0;color:#fff;line-height:1;cursor:pointer;font-size:14px;font-weight:500;padding:7px 15px;border-radius:4px;font-family:"Open Sans",sans-serif;background:#777979;box-shadow:2px 3px 4px 0 rgba(0,0,0,.25)}.botui-actions-text-select{border:0;outline:0;border-radius:0;padding:5px 7px;font-family:"Open Sans",sans-serif;background-color:transparent;color:#595a5a;border-bottom:1px solid #919292}.botui-actions-text-searchselect{border:0;outline:0;border-radius:0;padding:5px 7px;font-family:"Open Sans",sans-serif;background-color:transparent;color:#595a5a;border-bottom:1px solid #919292}.botui-actions-text-searchselect .dropdown-toggle{border:none!important}.botui-actions-text-searchselect .selected-tag{background-color:transparent!important;border:0!important}.slide-fade-enter-active{transition:all .3s ease}.slide-fade-enter,.slide-fade-leave-to{opacity:0;transform:translateX(-10px)}.dot{width:.5rem;height:.5rem;border-radius:.5rem;display:inline-block;background-color:#919292}.dot:nth-last-child(1){margin-left:.3rem;animation:loading .6s .3s linear infinite}.dot:nth-last-child(2){margin-left:.3rem;animation:loading .6s .2s linear infinite}.dot:nth-last-child(3){animation:loading .6s .1s linear infinite}@keyframes loading{0%{transform:translate(0,0);background-color:#ababab}25%{transform:translate(0,-3px)}50%{transform:translate(0,0);background-color:#ababab}75%{transform:translate(0,3px)}100%{transform:translate(0,0)}}</code></pre>
+
+
+
+<h4 class="wp-block-heading">botui.js</h4>
+
+
+
+<pre class="wp-block-code"><code>/*
+ * botui 0.3.9
+ * A JS library to build the UI for your bot
+ * https://botui.org
+ *
+ * Copyright 2019, Moin Uddin
+ * Released under the MIT license.
+*/
+
+(function (root, factory) {
+  "use strict";
+  if (typeof define === 'function' &amp;&amp; define.amd) {
+    define(&#91;], function () {
+      return (root.BotUI = factory(root));
+    });
+  } else {
+    root.BotUI = factory(root);
+  }
+}(typeof window !== 'undefined' ? window : this, function (root, undefined) {
+  "use strict";
+
+  var BotUI = (function (id, opts) {
+
+    opts = opts || {};
+
+    if(!id) {
+      throw Error('BotUI: Container id is required as first argument.');
+    }
+
+    if(!document.getElementById(id)) {
+      throw Error('BotUI: Element with id #' + id + ' does not exist.');
+    }
+
+    if(!root.Vue &amp;&amp; !opts.vue) {
+      throw Error('BotUI: Vue is required but not found.');
+    }
+
+    var _botApp, // current vue instance.
+    _options = {
+      debug: false,
+      fontawesome: true,
+      searchselect: true
+    },
+    _container, // the outermost Element. Needed to scroll to bottom, for now.
+    _interface = {}, // methods returned by a BotUI() instance.
+    _actionResolve,
+    _markDownRegex = {
+      icon: /!\((&#91;^\)]+)\)/igm, // !(icon)
+      image: /!\&#91;(.*?)\]\((.*?)\)/igm, // !&#91;aleternate text](src)
+      link: /\&#91;(&#91;^\&#91;]+)\]\((&#91;^\)]+)\)(\^?)/igm // &#91;text](link) ^ can be added at end to set the target as 'blank'
+    },
+    _fontAwesome = 'https://use.fontawesome.com/ea731dcb6f.js',
+    _esPromisePollyfill = 'https://cdn.jsdelivr.net/es6-promise/4.1.0/es6-promise.min.js', // mostly for IE
+    _searchselect =  "https://unpkg.com/vue-select@2.4.0/dist/vue-select.js";
+
+    root.Vue = root.Vue || opts.vue;
+
+    // merge opts passed to constructor with _options
+    for (var prop in _options) {
+      if (opts.hasOwnProperty(prop)) {
+        _options&#91;prop] = opts&#91;prop];
+      }
+    }
+
+    if(!root.Promise &amp;&amp; typeof Promise === "undefined" &amp;&amp; !opts.promise) {
+      loadScript(_esPromisePollyfill);
+    }
+
+    function _linkReplacer(match, $1, $2, $3) {
+      var _target = $3 ? 'blank' : ''; // check if '^' sign is present with link syntax
+      return "&lt;a class='botui-message-content-link' target='" + _target + "' href='" + $2 +"'&gt;" + $1 + "&lt;/a&gt;";
+    }
+
+    function _parseMarkDown(text) {
+      return text
+                 .replace(_markDownRegex.image, "&lt;img class='botui-message-content-image' src='$2' alt='$1' /&gt;")
+                 .replace(_markDownRegex.icon, "&lt;i class='botui-icon botui-message-content-icon fa fa-$1'&gt;&lt;/i&gt;")
+                 .replace(_markDownRegex.link, _linkReplacer);
+    }
+
+    function loadScript(src, cb) {
+      var script = document.createElement('script');
+          script.type = 'text/javascript';
+          script.src = src;
+
+          if(cb) {
+            script.onload = cb;
+          }
+
+      document.body.appendChild(script);
+    }
+
+    function _handleAction(text) {
+      if(_instance.action.addMessage) {
+        _interface.message.human({
+          delay: 100,
+          content: text
+        });
+      }
+      _instance.action.show = !_instance.action.autoHide;
+    }
+
+    var _botuiComponent = {
+      template: '&lt;div class=\"botui botui-container\" v-botui-container&gt;&lt;div class=\"botui-messages-container\"&gt;&lt;div v-for=\"msg in messages\" class=\"botui-message\" :class=\"msg.cssClass\" v-botui-scroll&gt;&lt;transition name=\"slide-fade\"&gt;&lt;div v-if=\"msg.visible\"&gt;&lt;div v-if=\"msg.photo &amp;&amp; !msg.loading\" :class=\"&#91;\'profil\', \'profile\', {human: msg.human, \'agent\': !msg.human}]\"&gt; &lt;img :src=\"msg.photo\" :class=\"&#91;{human: msg.human, \'agent\': !msg.human}]\"&gt;&lt;/div&gt;&lt;div :class=\"&#91;{human: msg.human, \'botui-message-content\': true}, msg.type]\"&gt;&lt;span v-if=\"msg.type == \'text\'\" v-text=\"msg.content\" v-botui-markdown&gt;&lt;/span&gt;&lt;span v-if=\"msg.type == \'html\'\" v-html=\"msg.content\"&gt;&lt;/span&gt; &lt;iframe v-if=\"msg.type == \'embed\'\" :src=\"msg.content\" frameborder=\"0\" allowfullscreen&gt;&lt;/iframe&gt;&lt;/div&gt;&lt;/div&gt;&lt;/transition&gt;&lt;div v-if=\"msg.photo &amp;&amp; msg.loading &amp;&amp; !msg.human\" :class=\"&#91;\'profil\', \'profile\', {human: msg.human, \'agent\': !msg.human}]\"&gt; &lt;img :src=\"msg.photo\" :class=\"&#91;{human: msg.human, \'agent\': !msg.human}]\"&gt;&lt;/div&gt;&lt;div v-if=\"msg.loading\" class=\"botui-message-content loading\"&gt;&lt;i class=\"dot\"&gt;&lt;/i&gt;&lt;i class=\"dot\"&gt;&lt;/i&gt;&lt;i class=\"dot\"&gt;&lt;/i&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;&lt;div class=\"botui-actions-container\"&gt;&lt;transition name=\"slide-fade\"&gt;&lt;div v-if=\"action.show\" v-botui-scroll&gt;&lt;form v-if=\"action.type == \'text\'\" class=\"botui-actions-text\" @submit.prevent=\"handle_action_text()\" :class=\"action.cssClass\"&gt;&lt;i v-if=\"action.text.icon\" class=\"botui-icon botui-action-text-icon fa\" :class=\"\'fa-\' + action.text.icon\"&gt;&lt;/i&gt; &lt;input type=\"text\" ref=\"input\" :type=\"action.text.sub_type\" v-model=\"action.text.value\" class=\"botui-actions-text-input\" :placeholder=\"action.text.placeholder\" :size=\"action.text.size\" :value=\" action.text.value\" :class=\"action.text.cssClass\" required v-focus/&gt; &lt;button type=\"submit\" :class=\"{\'botui-actions-buttons-button\': !!action.text.button, \'botui-actions-text-submit\': !action.text.button}\"&gt;&lt;i v-if=\"action.text.button &amp;&amp; action.text.button.icon\" class=\"botui-icon botui-action-button-icon fa\" :class=\"\'fa-\' + action.text.button.icon\"&gt;&lt;/i&gt; &lt;span&gt;{{(action.text.button &amp;&amp; action.text.button.label) || \'Go\'}}&lt;/span&gt;&lt;/button&gt;&lt;/form&gt;&lt;form v-if=\"action.type == \'select\'\" class=\"botui-actions-select\" @submit.prevent=\"handle_action_select()\" :class=\"action.cssClass\"&gt;&lt;i v-if=\"action.select.icon\" class=\"botui-icon botui-action-select-icon fa\" :class=\"\'fa-\' + action.select.icon\"&gt;&lt;/i&gt;&lt;v-select v-if=\"action.select.searchselect &amp;&amp; !action.select.multipleselect\" v-model=\"action.select.value\" :value=\"action.select.value\" :placeholder=\"action.select.placeholder\" class=\"botui-actions-text-searchselect\" :label=\"action.select.label\" :options=\"action.select.options\"&gt;&lt;/v-select&gt;&lt;v-select v-else-if=\"action.select.searchselect &amp;&amp; action.select.multipleselect\" multiple v-model=\"action.select.value\" :value=\"action.select.value\" :placeholder=\"action.select.placeholder\" class=\"botui-actions-text-searchselect\" :label=\"action.select.label\" :options=\"action.select.options\"&gt;&lt;/v-select&gt; &lt;select v-else v-model=\"action.select.value\" class=\"botui-actions-text-select\" :placeholder=\"action.select.placeholder\" :size=\"action.select.size\" :class=\"action.select.cssClass\" required v-focus&gt;&lt;option v-for=\"option in action.select.options\" :class=\"action.select.optionClass\" v-bind:value=\"option.value\" :disabled=\"(option.value == \'\')?true:false\" :selected=\"(action.select.value == option.value)?\'selected\':\'\'\"&gt; {{ option.text }}&lt;/option&gt;&lt;/select&gt; &lt;button type=\"submit\" :class=\"{\'botui-actions-buttons-button\': !!action.select.button, \'botui-actions-select-submit\': !action.select.button}\"&gt;&lt;i v-if=\"action.select.button &amp;&amp; action.select.button.icon\" class=\"botui-icon botui-action-button-icon fa\" :class=\"\'fa-\' + action.select.button.icon\"&gt;&lt;/i&gt; &lt;span&gt;{{(action.select.button &amp;&amp; action.select.button.label) || \'Ok\'}}&lt;/span&gt;&lt;/button&gt;&lt;/form&gt;&lt;div v-if=\"action.type == \'button\'\" class=\"botui-actions-buttons\" :class=\"action.cssClass\"&gt; &lt;button type=\"button\" :class=\"button.cssClass\" class=\"botui-actions-buttons-button\" v-botui-scroll v-for=\"button in action.button.buttons\" @click=\"handle_action_button(button)\"&gt;&lt;i v-if=\"button.icon\" class=\"botui-icon botui-action-button-icon fa\" :class=\"\'fa-\' + button.icon\"&gt;&lt;/i&gt; {{button.text}}&lt;/button&gt;&lt;/div&gt;&lt;form v-if=\"action.type == \'buttontext\'\" class=\"botui-actions-text\" @submit.prevent=\"handle_action_text()\" :class=\"action.cssClass\"&gt;&lt;i v-if=\"action.text.icon\" class=\"botui-icon botui-action-text-icon fa\" :class=\"\'fa-\' + action.text.icon\"&gt;&lt;/i&gt; &lt;input type=\"text\" ref=\"input\" :type=\"action.text.sub_type\" v-model=\"action.text.value\" class=\"botui-actions-text-input\" :placeholder=\"action.text.placeholder\" :size=\"action.text.size\" :value=\"action.text.value\" :class=\"action.text.cssClass\" required v-focus/&gt; &lt;button type=\"submit\" :class=\"{\'botui-actions-buttons-button\': !!action.text.button, \'botui-actions-text-submit\': !action.text.button}\"&gt;&lt;i v-if=\"action.text.button &amp;&amp; action.text.button.icon\" class=\"botui-icon botui-action-button-icon fa\" :class=\"\'fa-\' + action.text.button.icon\"&gt;&lt;/i&gt; &lt;span&gt;{{(action.text.button &amp;&amp; action.text.button.label) || \'Go\'}}&lt;/span&gt;&lt;/button&gt;&lt;div class=\"botui-actions-buttons\" :class=\"action.cssClass\"&gt; &lt;button type=\"button\" :class=\"button.cssClass\" class=\"botui-actions-buttons-button\" v-for=\"button in action.button.buttons\" @click=\"handle_action_button(button)\" autofocus&gt;&lt;i v-if=\"button.icon\" class=\"botui-icon botui-action-button-icon fa\" :class=\"\'fa-\' + button.icon\"&gt;&lt;/i&gt; {{button.text}}&lt;/button&gt;&lt;/div&gt;&lt;/form&gt;&lt;/div&gt;&lt;/transition&gt;&lt;/div&gt;&lt;/div&gt;', // replaced by HTML template during build. see Gulpfile.js
+      data: function () {
+        return {
+          action: {
+            text: {
+              size: 30,
+              placeholder: 'Write here ..'
+            },
+            button: {},
+            show: false,
+            type: 'text',
+            autoHide: true,
+            addMessage: true
+          },
+          messages: &#91;]
+        };
+      },
+      computed: {
+        isMobile: function () {
+          return root.innerWidth &amp;&amp; root.innerWidth &lt;= 768;
+        }
+      },
+    	methods: {
+    		handle_action_button: function (button) {
+          for (var i = 0; i &lt; this.action.button.buttons.length; i++) {
+            if(this.action.button.buttons&#91;i].value == button.value &amp;&amp; typeof(this.action.button.buttons&#91;i].event) == 'function') {
+              this.action.button.buttons&#91;i].event(button);
+              if (this.action.button.buttons&#91;i].actionStop) return false;
+              break;
+            }
+          }
+
+          _handleAction(button.text);
+
+          var defaultActionObj = {
+            type: 'button',
+            text: button.text,
+            value: button.value
+          };
+
+          for (var eachProperty in button) {
+            if (button.hasOwnProperty(eachProperty)) {
+              if (eachProperty !== 'type' &amp;&amp; eachProperty !== 'text' &amp;&amp; eachProperty !== 'value') {
+                defaultActionObj&#91;eachProperty] = button&#91;eachProperty];
+              }
+            }
+          }
+
+          _actionResolve(defaultActionObj);
+    		},
+    		handle_action_text: function () {
+    			if(!this.action.text.value) return;
+          _handleAction(this.action.text.value);
+    			_actionResolve({
+            type: 'text',
+            value: this.action.text.value
+          });
+    			this.action.text.value = '';
+    		},
+        handle_action_select: function () {
+          if(this.action.select.searchselect &amp;&amp; !this.action.select.multipleselect) {
+            if(!this.action.select.value.value) return;
+            _handleAction(this.action.select.value&#91;this.action.select.label]);
+            _actionResolve({
+              type: 'text',
+              value: this.action.select.value.value,
+              text: this.action.select.value.text,
+              obj: this.action.select.value
+            });
+          }
+          if(this.action.select.searchselect &amp;&amp; this.action.select.multipleselect) {
+            if(!this.action.select.value) return;
+            var values = new Array();
+            var labels = new Array();
+            for (var i = 0; i &lt; this.action.select.value.length; i++) {
+              values.push(this.action.select.value&#91;i].value);
+              labels.push(this.action.select.value&#91;i]&#91;this.action.select.label]);
+            }
+            _handleAction(labels.join(', '));
+            _actionResolve({
+              type: 'text',
+              value: values.join(', '),
+              text: labels.join(', '),
+              obj: this.action.select.value
+            });
+          }
+          else {
+            if(!this.action.select.value) return;
+            for (var i = 0; i &lt; this.action.select.options.length; i++) { // Find select title
+              if (this.action.select.options&#91;i].value == this.action.select.value) {
+                _handleAction(this.action.select.options&#91;i].text);
+                _actionResolve({
+                  type: 'text',
+                  value: this.action.select.value,
+                  text: this.action.select.options&#91;i].text
+                });
+              }
+            }
+          }
+        }
+    	}
+    };
+
+    root.Vue.directive('botui-markdown', function (el, binding) {
+      if(binding.value == 'false') return; // v-botui-markdown="false"
+      el.innerHTML = _parseMarkDown(el.textContent);
+    });
+
+    root.Vue.directive('botui-scroll', {
+      inserted: function (el) {
+        _container.scrollTop = _container.scrollHeight;
+	el.scrollIntoView(true);
+      }
+    });
+
+    root.Vue.directive('focus', {
+      inserted: function (el) {
+        el.focus();
+      }
+    });
+
+    root.Vue.directive('botui-container', {
+      inserted: function (el) {
+        _container = el;
+      }
+    });
+
+    _botApp = new root.Vue({
+      components: {
+        'bot-ui': _botuiComponent
+      }
+    }).$mount('#' + id);
+
+    var _instance = _botApp.$children&#91;0]; // to access the component's data
+
+    function _addMessage(_msg) {
+
+      if(!_msg.loading &amp;&amp; !_msg.content) {
+        throw Error('BotUI: "content" is required in a non-loading message object.');
+      }
+
+      _msg.type = _msg.type || 'text';
+      _msg.visible = (_msg.delay || _msg.loading) ? false : true;
+      var _index = _instance.messages.push(_msg) - 1;
+
+      return new Promise(function (resolve, reject) {
+        setTimeout(function () {
+          if(_msg.delay) {
+            _msg.visible = true;
+
+            if(_msg.loading) {
+              _msg.loading = false;
+            }
+          }
+          resolve(_index);
+        }, _msg.delay || 0);
+      });
+    }
+
+    function _checkOpts(_opts) {
+      if(typeof _opts === 'string') {
+        _opts = {
+          content: _opts
+        };
+      }
+      return _opts || {};
+    }
+
+    _interface.message =  {
+      add: function (addOpts) {
+        return _addMessage( _checkOpts(addOpts) );
+      },
+      bot: function (addOpts) {
+        addOpts = _checkOpts(addOpts);
+        return _addMessage(addOpts);
+      },
+      human: function (addOpts) {
+        addOpts = _checkOpts(addOpts);
+        addOpts.human = true;
+        return _addMessage(addOpts);
+      },
+      get: function (index) {
+        return Promise.resolve(_instance.messages&#91;index]);
+      },
+      remove: function (index) {
+        _instance.messages.splice(index, 1);
+        return Promise.resolve();
+      },
+      update: function (index, msg) { // only content can be updated, not the message type.
+        var _msg = _instance.messages&#91;index];
+        _msg.content = msg.content;
+        _msg.visible = !msg.loading;
+        _msg.loading = !!msg.loading;
+        return Promise.resolve(msg.content);
+      },
+      removeAll: function () {
+        _instance.messages.splice(0, _instance.messages.length);
+        return Promise.resolve();
+      }
+    };
+
+    function mergeAtoB(objA, objB) {
+      for (var prop in objA) {
+        if (!objB.hasOwnProperty(prop)) {
+          objB&#91;prop] = objA&#91;prop];
+        }
+      }
+    }
+
+    function _checkAction(_opts) {
+      if(!_opts.action &amp;&amp; !_opts.actionButton  &amp;&amp; !_opts.actionText) {
+        throw Error('BotUI: "action" property is required.');
+      }
+    }
+
+    function _showActions(_opts) {
+
+      _checkAction(_opts);
+
+      mergeAtoB({
+        type: 'text',
+        cssClass: '',
+        autoHide: true,
+        addMessage: true
+      }, _opts);
+
+      _instance.action.type = _opts.type;
+      _instance.action.cssClass = _opts.cssClass;
+      _instance.action.autoHide = _opts.autoHide;
+      _instance.action.addMessage = _opts.addMessage;
+
+      return new Promise(function(resolve, reject) {
+        _actionResolve = resolve; // resolved when action is performed, i.e: button clicked, text submitted, etc.
+        setTimeout(function () {
+          _instance.action.show = true;
+        }, _opts.delay || 0);
+      });
+    };
+
+    _interface.action = {
+      show: _showActions,
+      hide: function () {
+        _instance.action.show = false;
+        return Promise.resolve();
+      },
+      text: function (_opts) {
+        _checkAction(_opts);
+        _instance.action.text = _opts.action;
+        return _showActions(_opts);
+      },
+      button: function (_opts) {
+        _checkAction(_opts);
+        _opts.type = 'button';
+        _instance.action.button.buttons = _opts.action;
+        return _showActions(_opts);
+      },
+      select: function (_opts) {
+        _checkAction(_opts);
+        _opts.type = 'select';
+        _opts.action.label = _opts.action.label || 'text';
+        _opts.action.value = _opts.action.value || '';
+        _opts.action.searchselect = typeof _opts.action.searchselect !== 'undefined' ? _opts.action.searchselect : _options.searchselect;
+        _opts.action.multipleselect = _opts.action.multipleselect || false;
+        if (_opts.action.searchselect &amp;&amp; typeof(_opts.action.value) == 'string') {
+          if (!_opts.action.multipleselect) {
+            for (var i = 0; i &lt; _opts.action.options.length; i++) { // Find object
+              if (_opts.action.options&#91;i].value == _opts.action.value) {
+                _opts.action.value = _opts.action.options&#91;i]
+              }
+            }
+          }
+          else {
+            var vals = _opts.action.value.split(',');
+            _opts.action.value = new Array();
+            for (var i = 0; i &lt; _opts.action.options.length; i++) { // Find object
+              for (var j = 0; j &lt; vals.length; j++) { // Search values
+                if (_opts.action.options&#91;i].value == vals&#91;j]) {
+                  _opts.action.value.push(_opts.action.options&#91;i]);
+                }
+              }
+            }
+          }
+        }
+        if (!_opts.action.searchselect) { _opts.action.options.unshift({value:'',text : _opts.action.placeholder}); }
+        _instance.action.button = _opts.action.button;
+        _instance.action.select = _opts.action;
+        return _showActions(_opts);
+      },
+      buttontext: function (_opts) {
+        _checkAction(_opts);
+        _opts.type = 'buttontext';
+        _instance.action.button.buttons = _opts.actionButton;
+        _instance.action.text = _opts.actionText;
+        return _showActions(_opts);
+      }
+    };
+
+    if(_options.fontawesome) {
+      loadScript(_fontAwesome);
+    }
+
+    if(_options.searchselect) {
+      loadScript(_searchselect, function() {
+        Vue.component('v-select', VueSelect.VueSelect);
+      });
+    }
+
+    if(_options.debug) {
+      _interface._botApp = _botApp; // current Vue instance
+    }
+
+    return _interface;
+  });
+
+  return BotUI;
+
+}));</code></pre>
+
+
+
+<p>然后创建一个新页面，使用自定义HTML导入以下代码，<strong>根据中文提示来配置</strong>：</p>
+
+
+
+<pre class="wp-block-code"><code>&lt;link rel="stylesheet" href="这里是botui.min.css的位置，使用http协议链接，下同" />
+    &lt;link rel="stylesheet" href="这里是botui-theme-default.css的位置" />
+&lt;div id="dialogue" style="min-height:300px; padding:2px 6px 4px 6px; background-color: rgba(242, 242, 242,0.5); border-radius: 10px; 2px solid">
+    &lt;p>&lt;/p>
+    &lt;center>&lt;strong>这里是标题&lt;/strong>&lt;/center>
+&lt;bot-ui>
+        &lt;center>
+            &lt;div style=" background-image: url(https://cdn.jsdelivr.net/gh/Fog-Forest/cdn@1.7/botui/loading.svg);background-repeat: no-repeat;background-size: 10em;background-position: center;height: 10em;">&lt;/div>
+            &lt;p>Loading&lt;/p>
+        &lt;/center>
+&lt;/bot-ui>
+&lt;/div>
+    &lt;script src="https://cdn.staticfile.org/vue/2.7.0/vue.min.js">&lt;/script>
+    &lt;script src="这里是botui.js的位置">&lt;/script>
+    &lt;script src="这里是dialogue.js的位置">&lt;/script></code></pre>
+
+
+
+<h3 class="wp-block-heading">文案配置</h3>
+
+
+
+<p><code>dialogue.js</code>是文案文件，以下是我的文案：</p>
+
+
+
+<pre class="wp-block-code"><code>var botui = new BotUI('dialogue');
+
+botui.message.bot({
+    delay: 1500,
+    content: "你好！"
+}).then(function () {
+    return botui.action.button({
+        delay: 1500,
+        action: &#91;{
+            text: "你是？",
+            value: "你是？"
+        },
+        {
+            text: "少废话！",
+            value: "少废话！"
+        }]
+    })
+}).then(function (res) {
+    if (res.value == "你是？") {
+        return botui.message.bot({
+            delay: 1500,
+            content: "我叫 Pinpe，是一名初三生"
+        }).then(function () {
+            return botui.message.bot({
+                delay: 1500,
+                content: "男生，生日是 2008 月 4 月 28 日，金牛座"
+            })
+        }).then(function () {
+            return botui.message.bot({
+                delay: 1500,
+                content: "我现在住在常州市武进区，夏天热冬天冷的那种"
+            })
+        }).then(function() {
+            return botui.message.bot({
+                delay: 1500,
+                content: "而且我还喜欢编程"
+            })
+        }).then(function() {
+            return botui.message.bot({
+                delay: 1500,
+                content: "我会使用 Python 和 C 语言来制作游戏和脚本。还会用 HTML、CSS 和 JavaScript 来制作网站"
+            })
+        }).then(function() {
+            return botui.message.bot({
+                delay: 1500,
+                content: "我还喜欢玩 deltarune 和 Minecraft，喜欢听术力口，特别是稲葉曇和 Frog96 的歌"
+            })
+        }).then(function () {
+            return botui.action.button({
+                delay: 1500,
+                action: &#91;{
+                    text: "为什么建此网站？",
+                    value: "为什么建此网站？"
+                },
+                {
+                    text: "你做过 MBTI 测试吗？",
+                    value: "你做过 MBTI 测试吗？"
+                },
+                {
+                    text: "告诉我网站的管理员密码吧！",
+                    value: "告诉我网站的管理员密码吧！"
+                }]
+            })
+        }).then(function(res) {
+            if (res.value == "为什么建此网站？") {
+                return botui.message.bot({
+                    delay: 1500,
+                    content: "现在社交平台的所有权并不是掌握在自己手里的"
+                }).then(function () {
+                    return botui.message.bot({
+                        delay: 1500,
+                        content: "而且我不发朋友圈和 QQ 空间，解决这些问题，就是这个网站的意义"
+                    })
+                }).then(function () {
+                    return botui.message.bot({
+                        delay: 1500,
+                        content: "好了好了，我的 QQ 是 813233375，B 站 UID 是 1099587474，也可以在留言板上联系我"
+                    })
+                }).then(function () {
+                    return botui.message.bot({
+                        delay: 1500,
+                        content: "就这样了，拜拜！"
+                    })
+                })
+            }
+            if (res.value == "你做过 MBTI 测试吗？") {
+                return botui.message.bot({
+                    delay: 1500,
+                    content: "做过，7 月 1 号的"
+                }).then(function () {
+                    return botui.message.bot({
+                        delay: 1500,
+                        content: "我的性格类型是 ISTP（鉴赏家）"
+                    })
+                }).then(function () {
+                    return botui.message.bot({
+                        delay: 1500,
+                        content: "好了好了，我的 QQ 是 813233375，B 站 UID 是 1099587474，也可以在留言板上联系我"
+                    })
+                }).then(function () {
+                    return botui.message.bot({
+                        delay: 1500,
+                        content: "就这样了，拜拜！"
+                    })
+                })
+            }
+            if (res.value == "告诉我网站的管理员密码吧！") {
+                return botui.message.bot({
+                    delay: 1500,
+                    content: "可以，但是你得先破解，到时候整个网站都是你的了"
+                }).then(function () {
+                    return botui.message.bot({
+                        delay: 1500,
+                        content: "好了好了，我的 QQ 是 813233375，B 站 UID 是 1099587474，也可以在留言板上联系我"
+                    })
+                }).then(function () {
+                    return botui.message.bot({
+                        delay: 1500,
+                        content: "就这样了，拜拜！"
+                    })
+                })
+            }
+        });
+    }
+    if (res.value == "少废话！") {
+        return botui.message.bot({
+            delay: 1500,
+            content: "&#x1f910;"
+        })
+    }
+});</code></pre>
+]]></content:encoded>
+					
+					<wfw:commentRss>https://blog.pinpe.top/%e9%85%8d%e7%bd%ae%e5%af%b9%e8%af%9d%e5%bc%8f%e5%85%b3%e4%ba%8e%e9%a1%b5%e9%9d%a2/feed/</wfw:commentRss>
+			<slash:comments>1</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>一个月的网站更新日志</title>
+		<link>https://blog.pinpe.top/%e4%b8%80%e4%b8%aa%e6%9c%88%e7%9a%84%e7%bd%91%e7%ab%99%e6%9b%b4%e6%96%b0%e6%97%a5%e5%bf%97/</link>
+		
+		<dc:creator><![CDATA[Pinpe]]></dc:creator>
+		<pubDate>Sat, 07 Oct 2023 15:08:21 +0000</pubDate>
+				<category><![CDATA[其它]]></category>
+		<guid isPermaLink="false">https://blog.pinpe.top/?p=1357</guid>
+
+					<description><![CDATA[由于网站更新太快了，从现在开始，每次更新都会在这里记录，但是每月都会清空。顺序由上往下。]]></description>
+										<content:encoded><![CDATA[
+<p>由于网站更新太快了，从现在开始，每次更新都会在这里记录，但是每月都会清空。顺序由上往下。</p>
+
+
+
+<div class="wp-block-argon-timeline"><div class="argon-timeline"><div class="argon-timeline-node"><div class="argon-timeline-time">8</div><div class="argon-timeline-card card bg-gradient-secondary shadow-sm"><div class="argon-timeline-title">主页文章卡片添加了元数据。</div></div></div></div></div>
+]]></content:encoded>
+					
+		
+		
+			</item>
+		<item>
+		<title>【多图预警】国庆节我去哪了？</title>
+		<link>https://blog.pinpe.top/%e5%9b%bd%e5%ba%86%e8%8a%82%e6%88%91%e5%8e%bb%e5%93%aa%e4%ba%86%ef%bc%9f/</link>
+					<comments>https://blog.pinpe.top/%e5%9b%bd%e5%ba%86%e8%8a%82%e6%88%91%e5%8e%bb%e5%93%aa%e4%ba%86%ef%bc%9f/#comments</comments>
+		
+		<dc:creator><![CDATA[Pinpe]]></dc:creator>
+		<pubDate>Sat, 30 Sep 2023 15:55:01 +0000</pubDate>
+				<category><![CDATA[生活]]></category>
+		<guid isPermaLink="false">https://blog.pinpe.top/?p=1255</guid>
+
+					<description><![CDATA[第一天 昨天去句容了，今天在这里玩了很多地方。 茅山 早上，我们去茅山玩，山顶由于天气原因，只见仙雾腾腾，俨然 [&#8230;]]]></description>
+										<content:encoded><![CDATA[
+<h3 class="wp-block-heading">第一天</h3>
+
+
+
+<p>昨天去句容了，今天在这里玩了很多地方。</p>
+
+
+
+<h4 class="wp-block-heading">茅山</h4>
+
+
+
+<figure class="wp-block-image size-large"><img loading="lazy" decoding="async" width="1024" height="768" src="https://blog.pinpe.top/wp-content/uploads/2023/09/1696084554909-1024x768.jpg" alt="" class="wp-image-1263" srcset="https://blog.pinpe.top/wp-content/uploads/2023/09/1696084554909-1024x768.jpg 1024w, https://blog.pinpe.top/wp-content/uploads/2023/09/1696084554909-300x225.jpg 300w, https://blog.pinpe.top/wp-content/uploads/2023/09/1696084554909-768x576.jpg 768w, https://blog.pinpe.top/wp-content/uploads/2023/09/1696084554909-1536x1152.jpg 1536w, https://blog.pinpe.top/wp-content/uploads/2023/09/1696084554909-2048x1536.jpg 2048w" sizes="(max-width: 1024px) 100vw, 1024px" /></figure>
+
+
+
+<p>早上，我们去茅山玩，山顶由于天气原因，只见仙雾腾腾，俨然成为了一个水墨画。</p>
+
+
+
+<figure class="wp-block-image size-large"><img loading="lazy" decoding="async" width="1024" height="768" src="https://blog.pinpe.top/wp-content/uploads/2023/09/1696084554891-1024x768.jpg" alt="" class="wp-image-1259" srcset="https://blog.pinpe.top/wp-content/uploads/2023/09/1696084554891-1024x768.jpg 1024w, https://blog.pinpe.top/wp-content/uploads/2023/09/1696084554891-300x225.jpg 300w, https://blog.pinpe.top/wp-content/uploads/2023/09/1696084554891-768x576.jpg 768w, https://blog.pinpe.top/wp-content/uploads/2023/09/1696084554891-1536x1152.jpg 1536w, https://blog.pinpe.top/wp-content/uploads/2023/09/1696084554891-2048x1536.jpg 2048w" sizes="(max-width: 1024px) 100vw, 1024px" /></figure>
+
+
+
+<figure class="wp-block-image size-large"><img loading="lazy" decoding="async" width="1024" height="768" src="https://blog.pinpe.top/wp-content/uploads/2023/09/1696084554876-1024x768.jpg" alt="" class="wp-image-1260" srcset="https://blog.pinpe.top/wp-content/uploads/2023/09/1696084554876-1024x768.jpg 1024w, https://blog.pinpe.top/wp-content/uploads/2023/09/1696084554876-300x225.jpg 300w, https://blog.pinpe.top/wp-content/uploads/2023/09/1696084554876-768x576.jpg 768w, https://blog.pinpe.top/wp-content/uploads/2023/09/1696084554876-1536x1152.jpg 1536w, https://blog.pinpe.top/wp-content/uploads/2023/09/1696084554876-2048x1536.jpg 2048w" sizes="(max-width: 1024px) 100vw, 1024px" /></figure>
+
+
+
+<figure class="wp-block-image size-large"><img loading="lazy" decoding="async" width="1024" height="768" src="https://blog.pinpe.top/wp-content/uploads/2023/09/1696084554861-1024x768.jpg" alt="" class="wp-image-1261" srcset="https://blog.pinpe.top/wp-content/uploads/2023/09/1696084554861-1024x768.jpg 1024w, https://blog.pinpe.top/wp-content/uploads/2023/09/1696084554861-300x225.jpg 300w, https://blog.pinpe.top/wp-content/uploads/2023/09/1696084554861-768x576.jpg 768w, https://blog.pinpe.top/wp-content/uploads/2023/09/1696084554861-1536x1152.jpg 1536w, https://blog.pinpe.top/wp-content/uploads/2023/09/1696084554861-2048x1536.jpg 2048w" sizes="(max-width: 1024px) 100vw, 1024px" /></figure>
+
+
+
+<p>经过了各种寺庙和溶洞，终于来到了半山腰，虽然雾气消散了，但是场面仍然很壮观。</p>
+
+
+
+<figure class="wp-block-image size-large"><img loading="lazy" decoding="async" width="1024" height="768" src="https://blog.pinpe.top/wp-content/uploads/2023/09/1696084554846-1024x768.jpg" alt="" class="wp-image-1265" srcset="https://blog.pinpe.top/wp-content/uploads/2023/09/1696084554846-1024x768.jpg 1024w, https://blog.pinpe.top/wp-content/uploads/2023/09/1696084554846-300x225.jpg 300w, https://blog.pinpe.top/wp-content/uploads/2023/09/1696084554846-768x576.jpg 768w, https://blog.pinpe.top/wp-content/uploads/2023/09/1696084554846-1536x1152.jpg 1536w, https://blog.pinpe.top/wp-content/uploads/2023/09/1696084554846-2048x1536.jpg 2048w" sizes="(max-width: 1024px) 100vw, 1024px" /></figure>
+
+
+
+<figure class="wp-block-image size-large"><img loading="lazy" decoding="async" width="1024" height="768" src="https://blog.pinpe.top/wp-content/uploads/2023/09/1696084554830-1024x768.jpg" alt="" class="wp-image-1264" srcset="https://blog.pinpe.top/wp-content/uploads/2023/09/1696084554830-1024x768.jpg 1024w, https://blog.pinpe.top/wp-content/uploads/2023/09/1696084554830-300x225.jpg 300w, https://blog.pinpe.top/wp-content/uploads/2023/09/1696084554830-768x576.jpg 768w, https://blog.pinpe.top/wp-content/uploads/2023/09/1696084554830-1536x1152.jpg 1536w, https://blog.pinpe.top/wp-content/uploads/2023/09/1696084554830-2048x1536.jpg 2048w" sizes="(max-width: 1024px) 100vw, 1024px" /></figure>
+
+
+
+<h4 class="wp-block-heading">伏热花海</h4>
+
+
+
+<p>中午吃饭后，来到了伏热花海，我最喜欢这里了，虽然天气是阴天，但是仍然掩盖不不住唯美、浪漫、优雅的内核。</p>
+
+
+
+<figure class="wp-block-image size-large"><img loading="lazy" decoding="async" width="1024" height="768" src="https://blog.pinpe.top/wp-content/uploads/2023/09/1696084554792-1024x768.jpg" alt="" class="wp-image-1267" srcset="https://blog.pinpe.top/wp-content/uploads/2023/09/1696084554792-1024x768.jpg 1024w, https://blog.pinpe.top/wp-content/uploads/2023/09/1696084554792-300x225.jpg 300w, https://blog.pinpe.top/wp-content/uploads/2023/09/1696084554792-768x576.jpg 768w, https://blog.pinpe.top/wp-content/uploads/2023/09/1696084554792-1536x1152.jpg 1536w, https://blog.pinpe.top/wp-content/uploads/2023/09/1696084554792-2048x1536.jpg 2048w" sizes="(max-width: 1024px) 100vw, 1024px" /></figure>
+
+
+
+<figure class="wp-block-image size-large"><img loading="lazy" decoding="async" width="1024" height="768" src="https://blog.pinpe.top/wp-content/uploads/2023/09/1696084554771-1024x768.jpg" alt="" class="wp-image-1270" srcset="https://blog.pinpe.top/wp-content/uploads/2023/09/1696084554771-1024x768.jpg 1024w, https://blog.pinpe.top/wp-content/uploads/2023/09/1696084554771-300x225.jpg 300w, https://blog.pinpe.top/wp-content/uploads/2023/09/1696084554771-768x576.jpg 768w, https://blog.pinpe.top/wp-content/uploads/2023/09/1696084554771-1536x1152.jpg 1536w, https://blog.pinpe.top/wp-content/uploads/2023/09/1696084554771-2048x1536.jpg 2048w" sizes="(max-width: 1024px) 100vw, 1024px" /></figure>
+
+
+
+<figure class="wp-block-image size-large is-resized"><img loading="lazy" decoding="async" src="https://blog.pinpe.top/wp-content/uploads/2023/09/1696084554748-1024x768.jpg" alt="" class="wp-image-1269" style="width:840px;height:630px" width="840" height="630" srcset="https://blog.pinpe.top/wp-content/uploads/2023/09/1696084554748-1024x768.jpg 1024w, https://blog.pinpe.top/wp-content/uploads/2023/09/1696084554748-300x225.jpg 300w, https://blog.pinpe.top/wp-content/uploads/2023/09/1696084554748-768x576.jpg 768w, https://blog.pinpe.top/wp-content/uploads/2023/09/1696084554748-1536x1152.jpg 1536w, https://blog.pinpe.top/wp-content/uploads/2023/09/1696084554748-2048x1536.jpg 2048w" sizes="(max-width: 840px) 100vw, 840px" /></figure>
+
+
+
+<figure class="wp-block-image size-large"><img loading="lazy" decoding="async" width="1024" height="768" src="https://blog.pinpe.top/wp-content/uploads/2023/09/1696084554732-1024x768.jpg" alt="" class="wp-image-1271" srcset="https://blog.pinpe.top/wp-content/uploads/2023/09/1696084554732-1024x768.jpg 1024w, https://blog.pinpe.top/wp-content/uploads/2023/09/1696084554732-300x225.jpg 300w, https://blog.pinpe.top/wp-content/uploads/2023/09/1696084554732-768x576.jpg 768w, https://blog.pinpe.top/wp-content/uploads/2023/09/1696084554732-1536x1152.jpg 1536w, https://blog.pinpe.top/wp-content/uploads/2023/09/1696084554732-2048x1536.jpg 2048w" sizes="(max-width: 1024px) 100vw, 1024px" /></figure>
+
+
+
+<h3 class="wp-block-heading">第二天</h3>
+
+
+
+<h4 class="wp-block-heading">中华恐龙园</h4>
+
+
+
+<p>恐龙园非常热闹，我们去看了4D电影并去了鬼屋，里面的物价还是非常贵的。</p>
+
+
+
+<figure class="wp-block-image size-large"><img loading="lazy" decoding="async" width="1024" height="768" src="https://blog.pinpe.top/wp-content/uploads/2023/10/1696253812054-1024x768.jpg" alt="" class="wp-image-1299" srcset="https://blog.pinpe.top/wp-content/uploads/2023/10/1696253812054-1024x768.jpg 1024w, https://blog.pinpe.top/wp-content/uploads/2023/10/1696253812054-300x225.jpg 300w, https://blog.pinpe.top/wp-content/uploads/2023/10/1696253812054-768x576.jpg 768w, https://blog.pinpe.top/wp-content/uploads/2023/10/1696253812054-1536x1152.jpg 1536w, https://blog.pinpe.top/wp-content/uploads/2023/10/1696253812054-2048x1536.jpg 2048w" sizes="(max-width: 1024px) 100vw, 1024px" /></figure>
+
+
+
+<figure class="wp-block-image size-large"><img loading="lazy" decoding="async" width="1024" height="768" src="https://blog.pinpe.top/wp-content/uploads/2023/10/1696253812036-1024x768.jpg" alt="" class="wp-image-1300" srcset="https://blog.pinpe.top/wp-content/uploads/2023/10/1696253812036-1024x768.jpg 1024w, https://blog.pinpe.top/wp-content/uploads/2023/10/1696253812036-300x225.jpg 300w, https://blog.pinpe.top/wp-content/uploads/2023/10/1696253812036-768x576.jpg 768w, https://blog.pinpe.top/wp-content/uploads/2023/10/1696253812036-1536x1152.jpg 1536w, https://blog.pinpe.top/wp-content/uploads/2023/10/1696253812036-2048x1536.jpg 2048w" sizes="(max-width: 1024px) 100vw, 1024px" /></figure>
+
+
+
+<figure class="wp-block-image size-large"><img loading="lazy" decoding="async" width="768" height="1024" src="https://blog.pinpe.top/wp-content/uploads/2023/10/1696253812021-768x1024.jpg" alt="" class="wp-image-1308" srcset="https://blog.pinpe.top/wp-content/uploads/2023/10/1696253812021-768x1024.jpg 768w, https://blog.pinpe.top/wp-content/uploads/2023/10/1696253812021-225x300.jpg 225w, https://blog.pinpe.top/wp-content/uploads/2023/10/1696253812021-1152x1536.jpg 1152w, https://blog.pinpe.top/wp-content/uploads/2023/10/1696253812021-1536x2048.jpg 1536w, https://blog.pinpe.top/wp-content/uploads/2023/10/1696253812021-scaled.jpg 1920w" sizes="(max-width: 768px) 100vw, 768px" /></figure>
+
+
+
+<h3 class="wp-block-heading">第三天</h3>
+
+
+
+<h4 class="wp-block-heading">博物馆/规划馆</h4>
+
+
+
+<figure class="wp-block-image size-large"><img loading="lazy" decoding="async" width="1024" height="768" src="https://blog.pinpe.top/wp-content/uploads/2023/10/1696253812006-1024x768.jpg" alt="" class="wp-image-1301" srcset="https://blog.pinpe.top/wp-content/uploads/2023/10/1696253812006-1024x768.jpg 1024w, https://blog.pinpe.top/wp-content/uploads/2023/10/1696253812006-300x225.jpg 300w, https://blog.pinpe.top/wp-content/uploads/2023/10/1696253812006-768x576.jpg 768w, https://blog.pinpe.top/wp-content/uploads/2023/10/1696253812006-1536x1152.jpg 1536w, https://blog.pinpe.top/wp-content/uploads/2023/10/1696253812006-2048x1536.jpg 2048w" sizes="(max-width: 1024px) 100vw, 1024px" /><figcaption class="wp-element-caption">地铁</figcaption></figure>
+
+
+
+<figure class="wp-block-image size-large"><img loading="lazy" decoding="async" width="1024" height="768" src="https://blog.pinpe.top/wp-content/uploads/2023/10/1696253811990-1024x768.jpg" alt="" class="wp-image-1305" srcset="https://blog.pinpe.top/wp-content/uploads/2023/10/1696253811990-1024x768.jpg 1024w, https://blog.pinpe.top/wp-content/uploads/2023/10/1696253811990-300x225.jpg 300w, https://blog.pinpe.top/wp-content/uploads/2023/10/1696253811990-768x576.jpg 768w, https://blog.pinpe.top/wp-content/uploads/2023/10/1696253811990-1536x1152.jpg 1536w, https://blog.pinpe.top/wp-content/uploads/2023/10/1696253811990-2048x1536.jpg 2048w" sizes="(max-width: 1024px) 100vw, 1024px" /><figcaption class="wp-element-caption">新图书馆</figcaption></figure>
+
+
+
+<p>以前是冷冷清清的，但现在却不同以往，里面和恐龙园一样挤满了人，而且感觉外景壮观很多。</p>
+
+
+
+<figure class="wp-block-image size-large"><img loading="lazy" decoding="async" width="1024" height="768" src="https://blog.pinpe.top/wp-content/uploads/2023/10/1696253811973-1024x768.jpg" alt="" class="wp-image-1302" srcset="https://blog.pinpe.top/wp-content/uploads/2023/10/1696253811973-1024x768.jpg 1024w, https://blog.pinpe.top/wp-content/uploads/2023/10/1696253811973-300x225.jpg 300w, https://blog.pinpe.top/wp-content/uploads/2023/10/1696253811973-768x576.jpg 768w, https://blog.pinpe.top/wp-content/uploads/2023/10/1696253811973-1536x1152.jpg 1536w, https://blog.pinpe.top/wp-content/uploads/2023/10/1696253811973-2048x1536.jpg 2048w" sizes="(max-width: 1024px) 100vw, 1024px" /></figure>
+
+
+
+<figure class="wp-block-image size-large"><img loading="lazy" decoding="async" width="1024" height="768" src="https://blog.pinpe.top/wp-content/uploads/2023/10/1696253811957-1024x768.jpg" alt="" class="wp-image-1303" srcset="https://blog.pinpe.top/wp-content/uploads/2023/10/1696253811957-1024x768.jpg 1024w, https://blog.pinpe.top/wp-content/uploads/2023/10/1696253811957-300x225.jpg 300w, https://blog.pinpe.top/wp-content/uploads/2023/10/1696253811957-768x576.jpg 768w, https://blog.pinpe.top/wp-content/uploads/2023/10/1696253811957-1536x1152.jpg 1536w, https://blog.pinpe.top/wp-content/uploads/2023/10/1696253811957-2048x1536.jpg 2048w" sizes="(max-width: 1024px) 100vw, 1024px" /></figure>
+
+
+
+<p>后来是在环球港吃的午饭，当时已经3点了，以至于晚饭也不吃了。</p>
+
+
+
+<figure class="wp-block-image size-large"><img loading="lazy" decoding="async" width="768" height="1024" src="https://blog.pinpe.top/wp-content/uploads/2023/10/1696253811922-768x1024.jpg" alt="" class="wp-image-1304" srcset="https://blog.pinpe.top/wp-content/uploads/2023/10/1696253811922-768x1024.jpg 768w, https://blog.pinpe.top/wp-content/uploads/2023/10/1696253811922-225x300.jpg 225w, https://blog.pinpe.top/wp-content/uploads/2023/10/1696253811922-1152x1536.jpg 1152w, https://blog.pinpe.top/wp-content/uploads/2023/10/1696253811922-1536x2048.jpg 1536w, https://blog.pinpe.top/wp-content/uploads/2023/10/1696253811922-scaled.jpg 1920w" sizes="(max-width: 768px) 100vw, 768px" /></figure>
+
+
+
+<figure class="wp-block-image size-large"><img loading="lazy" decoding="async" width="768" height="1024" src="https://blog.pinpe.top/wp-content/uploads/2023/10/1696253811938-768x1024.jpg" alt="" class="wp-image-1306" srcset="https://blog.pinpe.top/wp-content/uploads/2023/10/1696253811938-768x1024.jpg 768w, https://blog.pinpe.top/wp-content/uploads/2023/10/1696253811938-225x300.jpg 225w, https://blog.pinpe.top/wp-content/uploads/2023/10/1696253811938-1152x1536.jpg 1152w, https://blog.pinpe.top/wp-content/uploads/2023/10/1696253811938-1536x2048.jpg 1536w, https://blog.pinpe.top/wp-content/uploads/2023/10/1696253811938-scaled.jpg 1920w" sizes="(max-width: 768px) 100vw, 768px" /><figcaption class="wp-element-caption">我去，初音未来！</figcaption></figure>
+
+
+
+<figure class="wp-block-image size-large"><img loading="lazy" decoding="async" width="768" height="1024" src="https://blog.pinpe.top/wp-content/uploads/2023/10/1696260767787-768x1024.jpg" alt="" class="wp-image-1307" srcset="https://blog.pinpe.top/wp-content/uploads/2023/10/1696260767787-768x1024.jpg 768w, https://blog.pinpe.top/wp-content/uploads/2023/10/1696260767787-225x300.jpg 225w, https://blog.pinpe.top/wp-content/uploads/2023/10/1696260767787-1152x1536.jpg 1152w, https://blog.pinpe.top/wp-content/uploads/2023/10/1696260767787-1536x2048.jpg 1536w, https://blog.pinpe.top/wp-content/uploads/2023/10/1696260767787-scaled.jpg 1920w" sizes="(max-width: 768px) 100vw, 768px" /><figcaption class="wp-element-caption">听说这个牌子的玩偶很贵</figcaption></figure>
+]]></content:encoded>
+					
+					<wfw:commentRss>https://blog.pinpe.top/%e5%9b%bd%e5%ba%86%e8%8a%82%e6%88%91%e5%8e%bb%e5%93%aa%e4%ba%86%ef%bc%9f/feed/</wfw:commentRss>
+			<slash:comments>1</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>页面设计色彩推荐</title>
+		<link>https://blog.pinpe.top/%e9%a1%b5%e9%9d%a2%e8%ae%be%e8%ae%a1%e8%89%b2%e5%bd%a9%e6%8e%a8%e8%8d%90/</link>
+					<comments>https://blog.pinpe.top/%e9%a1%b5%e9%9d%a2%e8%ae%be%e8%ae%a1%e8%89%b2%e5%bd%a9%e6%8e%a8%e8%8d%90/#respond</comments>
+		
+		<dc:creator><![CDATA[Pinpe]]></dc:creator>
+		<pubDate>Wed, 20 Sep 2023 14:11:32 +0000</pubDate>
+				<category><![CDATA[教程/科普]]></category>
+		<guid isPermaLink="false">https://blog.pinpe.top/?p=1188</guid>
+
+					<description><![CDATA[网页色彩的组成应该优先保证可读性和美观性。 好看的颜色不太好找，我在这里推荐一下我认为美观且可读性高的颜色，适 [&#8230;]]]></description>
+										<content:encoded><![CDATA[
+<p>网页色彩的组成应该优先保证可读性和美观性。</p>
+
+
+
+<p>好看的颜色不太好找，我在这里推荐一下我认为美观且可读性高的颜色，适用于简洁的界面（就像现在我博客这样的）。</p>
+
+
+
+<h3 class="wp-block-heading">标题/主题颜色</h3>
+
+
+
+<h4 class="wp-block-heading has-text-color" style="color:#5e72e4">Argon蓝</h4>
+
+
+
+<p>色号：<code>#5E72E4</code></p>
+
+
+
+<p>我最喜欢的蓝色，同时也是Argon主题的默认主题色（严格来说是Argon design system的主题色）。</p>
+
+
+
+<p>清新又不失优雅。</p>
+
+
+
+<h4 class="wp-block-heading has-text-color" style="color:#dc4437">热情红</h4>
+
+
+
+<p>色号：<code>#DC4437</code></p>
+
+
+
+<p>看起来很活泼的红色，是Argon主题的主题色。</p>
+
+
+
+<p>象征着热情、热闹、温暖。</p>
+
+
+
+<h4 class="wp-block-heading has-text-color" style="color:#607d8b">Blue Grey</h4>
+
+
+
+<p>色号：<code>#607D8B</code></p>
+
+
+
+<p>极简质感的灰色，有一种莫名的高级感，Material设计体系标准颜色。</p>
+
+
+
+<p>适合雨天的场景。</p>
+
+
+
+<h4 class="wp-block-heading has-text-color" style="color:#4a8fa1">黛绿</h4>
+
+
+
+<p>色号：<code>#4A8FA1</code></p>
+
+
+
+<p>有一些清新的绿色，适合自然、舒适的场景。</p>
+
+
+
+<h3 class="wp-block-heading">正文颜色</h3>
+
+
+
+<h4 class="wp-block-heading has-text-color" style="color:#32325d">深黑色</h4>
+
+
+
+<p>色号：<code>#32325D</code></p>
+
+
+
+<p>有一点点偏蓝，目前用于标题、超链接、按钮等重要的文字。</p>
+
+
+
+<h4 class="wp-block-heading has-text-color" style="color:#525f7f">浅黑色</h4>
+
+
+
+<p>色号：<code>#525F7F</code></p>
+
+
+
+<p>比深黑色更浅，接近灰色。目前用于正文等较多的文字。</p>
+
+
+
+<h3 class="wp-block-heading">额外内容</h3>
+
+
+
+<p>如果还想要获取其它好看的颜色，可以试试这个网站：<a href="https://tool.solstice23.top/color/">https://tool.solstice23.top/color/</a></p>
+
+
+
+<p>鉴于原网站不稳定、加载速度慢，我尝试在我的服务器重新部署了一下，也是我第一个手动部署的动态页面：<a href="https://blog.pinpe.top/other/color/">https://blog.pinpe.top/other/color/</a></p>
+]]></content:encoded>
+					
+					<wfw:commentRss>https://blog.pinpe.top/%e9%a1%b5%e9%9d%a2%e8%ae%be%e8%ae%a1%e8%89%b2%e5%bd%a9%e6%8e%a8%e8%8d%90/feed/</wfw:commentRss>
+			<slash:comments>0</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>《闹剧》游戏发布</title>
+		<link>https://blog.pinpe.top/%e3%80%8a%e9%97%b9%e5%89%a7%e3%80%8b%e6%b8%b8%e6%88%8f%e5%8f%91%e5%b8%83/</link>
+					<comments>https://blog.pinpe.top/%e3%80%8a%e9%97%b9%e5%89%a7%e3%80%8b%e6%b8%b8%e6%88%8f%e5%8f%91%e5%b8%83/#comments</comments>
+		
+		<dc:creator><![CDATA[Pinpe]]></dc:creator>
+		<pubDate>Fri, 01 Sep 2023 10:10:18 +0000</pubDate>
+				<category><![CDATA[资源]]></category>
+		<guid isPermaLink="false">https://blog.pinpe.top/?p=1156</guid>
+
+					<description><![CDATA[素材来源 图片快照 下载 微云：https://share.weiyun.com/g2GPp7sQ]]></description>
+										<content:encoded><![CDATA[
+<h3 class="wp-block-heading">素材来源</h3>
+
+
+
+<ul>
+<li>RPGmaker MZ 部分音乐</li>
+
+
+
+<li>RPGmaker 2003 部分音乐（经过mid到ogg的转换）</li>
+
+
+
+<li>RPGmaker MZ 人物、图块素材</li>
+</ul>
+
+
+
+<h3 class="wp-block-heading">图片快照</h3>
+
+
+
+<figure class="wp-block-image size-full"><img loading="lazy" decoding="async" width="816" height="624" src="https://blog.pinpe.top/wp-content/uploads/2023/09/Map003.png" alt="" class="wp-image-1157" srcset="https://blog.pinpe.top/wp-content/uploads/2023/09/Map003.png 816w, https://blog.pinpe.top/wp-content/uploads/2023/09/Map003-300x229.png 300w, https://blog.pinpe.top/wp-content/uploads/2023/09/Map003-768x587.png 768w" sizes="(max-width: 816px) 100vw, 816px" /></figure>
+
+
+
+<figure class="wp-block-image size-full"><img loading="lazy" decoding="async" width="816" height="528" src="https://blog.pinpe.top/wp-content/uploads/2023/09/Map009.png" alt="" class="wp-image-1158" srcset="https://blog.pinpe.top/wp-content/uploads/2023/09/Map009.png 816w, https://blog.pinpe.top/wp-content/uploads/2023/09/Map009-300x194.png 300w, https://blog.pinpe.top/wp-content/uploads/2023/09/Map009-768x497.png 768w" sizes="(max-width: 816px) 100vw, 816px" /></figure>
+
+
+
+<figure class="wp-block-image size-full"><img loading="lazy" decoding="async" width="336" height="528" src="https://blog.pinpe.top/wp-content/uploads/2023/09/Map004.png" alt="" class="wp-image-1159" srcset="https://blog.pinpe.top/wp-content/uploads/2023/09/Map004.png 336w, https://blog.pinpe.top/wp-content/uploads/2023/09/Map004-191x300.png 191w" sizes="(max-width: 336px) 100vw, 336px" /></figure>
+
+
+
+<figure class="wp-block-image size-large"><img loading="lazy" decoding="async" width="1024" height="444" src="https://blog.pinpe.top/wp-content/uploads/2023/09/Map012-1024x444.png" alt="" class="wp-image-1160" srcset="https://blog.pinpe.top/wp-content/uploads/2023/09/Map012-1024x444.png 1024w, https://blog.pinpe.top/wp-content/uploads/2023/09/Map012-300x130.png 300w, https://blog.pinpe.top/wp-content/uploads/2023/09/Map012-768x333.png 768w, https://blog.pinpe.top/wp-content/uploads/2023/09/Map012.png 1440w" sizes="(max-width: 1024px) 100vw, 1024px" /></figure>
+
+
+
+<h3 class="wp-block-heading">下载</h3>
+
+
+
+<p>微云：<a href="https://share.weiyun.com/g2GPp7sQ">https://share.weiyun.com/g2GPp7sQ</a></p>
+]]></content:encoded>
+					
+					<wfw:commentRss>https://blog.pinpe.top/%e3%80%8a%e9%97%b9%e5%89%a7%e3%80%8b%e6%b8%b8%e6%88%8f%e5%8f%91%e5%b8%83/feed/</wfw:commentRss>
+			<slash:comments>1</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>【架空/伪文档】PinkShell编译模式快速入门</title>
+		<link>https://blog.pinpe.top/%e3%80%90%e6%9e%b6%e7%a9%ba-%e4%bc%aa%e6%96%87%e6%a1%a3%e3%80%91pinkshell%e7%bc%96%e8%af%91%e6%a8%a1%e5%bc%8f%e5%bf%ab%e9%80%9f%e5%85%a5%e9%97%a8/</link>
+					<comments>https://blog.pinpe.top/%e3%80%90%e6%9e%b6%e7%a9%ba-%e4%bc%aa%e6%96%87%e6%a1%a3%e3%80%91pinkshell%e7%bc%96%e8%af%91%e6%a8%a1%e5%bc%8f%e5%bf%ab%e9%80%9f%e5%85%a5%e9%97%a8/#respond</comments>
+		
+		<dc:creator><![CDATA[Pinpe]]></dc:creator>
+		<pubDate>Fri, 01 Sep 2023 04:34:49 +0000</pubDate>
+				<category><![CDATA[其它]]></category>
+		<guid isPermaLink="false">https://blog.pinpe.top/?p=1136</guid>
+
+					<description><![CDATA[第零章：为什么选择PinkShell？ PinkShell是由Exquisite开发的面向对象的Shell和编 [&#8230;]]]></description>
+										<content:encoded><![CDATA[
+<h3 class="wp-block-heading">第零章：为什么选择PinkShell？</h3>
+
+
+
+<p><strong>PinkShell</strong>是由<strong>Exquisite开发</strong>的<strong>面向对象的Shell和编程语言</strong>，<strong>具有Shell和编译两种独立模式</strong>，本文档是编译模式的教程。</p>
+
+
+
+<p>PinkShell的一些特点：</p>
+
+
+
+<ul>
+<li>跨平台：<strong>Pink OS</strong>、<strong>Windows</strong>、<strong>Liunx</strong>、<strong>Mac OS</strong>等操作系统都能兼容PinkShell。</li>
+
+
+
+<li>系统支持：<strong>Pink OS自带PinkShell环境</strong>，此系统的GUI程序和系统软件都是使用PinkShell开发的。</li>
+
+
+
+<li>运行效率高：PinkShell的峰值运行效率仅次于C语言。</li>
+
+
+
+<li>快速部署：PinkShell可以直接生成可执行文件，如C语言一样便捷。</li>
+</ul>
+
+
+
+<h3 class="wp-block-heading">第一章：环境配置</h3>
+
+
+
+<p>此文档假设以下条件：</p>
+
+
+
+<figure class="wp-block-table"><table class="has-fixed-layout"><tbody><tr><td>操作系统版本</td><td class="has-text-align-right" data-align="right">Pink OS 17.7.0</td></tr><tr><td>PinkShell版本</td><td class="has-text-align-right" data-align="right">8.2.0</td></tr><tr><td>PinkShell位置</td><td class="has-text-align-right" data-align="right"><code>/system/system pack/shell</code></td></tr><tr><td>程序位置</td><td class="has-text-align-right" data-align="right"><code>/bin</code></td></tr></tbody></table></figure>
+
+
+
+<p><strong>PinkShell文件的后缀名是<code>.sh</code></strong>，在<code>/bin</code>创建一个名为<code>Hello.sh</code>，然后使用文本编辑器打开。</p>
+
+
+
+<h3 class="wp-block-heading">第二章：基础声明</h3>
+
+
+
+<p>如果这个文件是编译模式的程序，需要在开头加入这样的声明：</p>
+
+
+
+<pre class="wp-block-code"><code>$ mode compile ;</code></pre>
+
+
+
+<p>否则会以Shell模式运行。</p>
+
+
+
+<h3 class="wp-block-heading">第三章：数据类型</h3>
+
+
+
+<p><strong>PinkShell严格区分数据类型</strong>，使用错误的数据类型会报错或出现逻辑错误。</p>
+
+
+
+<h4 class="wp-block-heading">整数</h4>
+
+
+
+<figure class="wp-block-table"><table class="has-fixed-layout"><thead><tr><th class="has-text-align-left" data-align="left">类型</th><th class="has-text-align-right" data-align="right">范围</th></tr></thead><tbody><tr><td class="has-text-align-left" data-align="left"><code>auto_int</code></td><td class="has-text-align-right" data-align="right">无限</td></tr><tr><td class="has-text-align-left" data-align="left"><code>short_int</code></td><td class="has-text-align-right" data-align="right">-32768~32767</td></tr><tr><td class="has-text-align-left" data-align="left"><code>long_int</code></td><td class="has-text-align-right" data-align="right">小于-32,768或大于32,767</td></tr></tbody></table></figure>
+
+
+
+<h4 class="wp-block-heading">浮点数</h4>
+
+
+
+<figure class="wp-block-table"><table class="has-fixed-layout"><thead><tr><th class="has-text-align-left" data-align="left">类型</th><th class="has-text-align-right" data-align="right">范围</th></tr></thead><tbody><tr><td class="has-text-align-left" data-align="left"><code>auto_float</code></td><td class="has-text-align-right" data-align="right">无限</td></tr><tr><td class="has-text-align-left" data-align="left"><code>short_float</code></td><td class="has-text-align-right" data-align="right">2.3E-308~1.7E+308</td></tr><tr><td class="has-text-align-left" data-align="left"><code>long_float</code></td><td class="has-text-align-right" data-align="right">小于2.3E-308或大于1.7E+308</td></tr></tbody></table></figure>
+
+
+
+<h4 class="wp-block-heading">字符串</h4>
+
+
+
+<figure class="wp-block-table"><table class="has-fixed-layout"><thead><tr><th class="has-text-align-left" data-align="left">类型</th><th class="has-text-align-right" data-align="right">范围</th></tr></thead><tbody><tr><td class="has-text-align-left" data-align="left"><code>auto_</code>str</td><td class="has-text-align-right" data-align="right">无限</td></tr><tr><td class="has-text-align-left" data-align="left"><code>short_str</code></td><td class="has-text-align-right" data-align="right">0字节~1024字节</td></tr><tr><td class="has-text-align-left" data-align="left"><code>long_str</code></td><td class="has-text-align-right" data-align="right">大于1024字节</td></tr></tbody></table></figure>
+
+
+
+<h3 class="wp-block-heading">第四章：函数</h3>
+
+
+
+<p><strong>函数区分数据类型</strong>，通常是<code>auto_int</code>。</p>
+
+
+
+<p>创建和调用函数的语法如下：</p>
+
+
+
+<pre class="wp-block-code"><code>defined function &lt;数据类型&gt; &lt;创建的函数名字&gt; (&lt;参数1&gt;,&lt;参数2&gt;...) do
+    &lt;代码块&gt; ；
+end
+调用的函数名字(&lt;参数1&gt;,&lt;参数2&gt;...) ;</code></pre>
+
+
+
+<p><strong>PinkShell需要有一个<code>main</code>函数作为程序入口</strong>，不需要额外调用，大概是这样</p>
+
+
+
+<pre class="wp-block-code"><code>defined function auto_int main() do
+    &lt;代码块&gt; ;
+end</code></pre>
+
+
+
+<h3 class="wp-block-heading">第五章：输出</h3>
+
+
+
+<p><strong><code>output</code>类中的<code>echo</code>函数可以输出数据</strong>，语法如下：</p>
+
+
+
+<pre class="wp-block-code"><code>output.echo (&lt;参数&gt;) ;</code></pre>
+
+
+
+<p>完整的Hello world程序是这样的：</p>
+
+
+
+<pre class="wp-block-code"><code>$ mode compile ;
+
+defined function auto_int main() do
+    output.echo ("Hello world!\n") ;
+end</code></pre>
+
+
+
+<h3 class="wp-block-heading">第六章：变量</h3>
+
+
+
+<p><strong>变量也区分数据类型</strong>，语法如下：</p>
+
+
+
+<pre class="wp-block-code"><code>&lt;数据类型&gt; &lt;变量名&gt; -&gt; &lt;值&gt;</code></pre>
+
+
+
+<p>以下是一个示例，用于连接字符串：</p>
+
+
+
+<pre class="wp-block-code"><code>$ mode compile ;
+
+defined function auto_int main() do
+    auto_str a -&gt; "Hello" ;
+    auto_str b -&gt; "World" ;
+    output.echo (a + b + "\n") ;
+end</code></pre>
+
+
+
+<h3 class="wp-block-heading">第七章：输入</h3>
+
+
+
+<p><strong><code>input</code>函数可以获取键盘在终端输入的信息</strong>，可以传达到变量，语法如下：</p>
+
+
+
+<pre class="wp-block-code"><code>input (&lt;参数(通常是空的)&gt;) ;</code></pre>
+
+
+
+<p>以下是一个示例，用于获取你的名字：</p>
+
+
+
+<pre class="wp-block-code"><code>$ mode compile ;
+
+defined function auto_int main() do
+    auto_str name -&gt; input () ;
+    output.echo ("你好，" + name + "\n") ;
+end</code></pre>
+
+
+
+<h3 class="wp-block-heading">第八章：判断</h3>
+
+
+
+<p><strong><code>if...elseif...else</code>语句用来进行条件判断</strong>，语法如下：</p>
+
+
+
+<pre class="wp-block-code"><code>if (&lt;条件&gt;) then
+    &lt;代码块&gt; ;
+elseif (&lt;条件&gt;) then
+    &lt;代码块&gt; ;
+else then
+    &lt;代码块&gt; ;
+end</code></pre>
+
+
+
+<h3 class="wp-block-heading">第九章：循环</h3>
+
+
+
+<p><strong><code>while</code>语句可以循环执行一个代码块</strong>，在没有<code>break</code>的情况不会停止，语法如下：</p>
+
+
+
+<pre class="wp-block-code"><code>while do
+   &lt;代码块&gt; ;
+end</code></pre>
+
+
+
+<p>如果需要达到某种条件跳过循环的情况，可以使用<code>break</code>语句配合判断来实现：</p>
+
+
+
+<pre class="wp-block-code"><code>while do
+    if (&lt;条件&gt;) then
+        break ;
+    else then
+        &lt;代码块&gt; ;
+    end
+end</code></pre>
+
+
+
+<h3 class="wp-block-heading">第十章：库</h3>
+
+
+
+<p><strong>PinkShell拥有各种好用的库</strong>，如与系统通信的<code>system</code>库，简便制作GUI程序的<code>iris</code>库，数学计算的<code>math</code>库，管理服务器的<code>web</code>库&#8230;</p>
+
+
+
+<p>导入一个库很简单，只需要在开头加入这样的声明：</p>
+
+
+
+<pre class="wp-block-code"><code>$ import "&lt;库名称&gt;" ;</code></pre>
+
+
+
+<h3 class="wp-block-heading">第十一章：部署可执行文件</h3>
+
+
+
+<p>通常情况下，编译的时候会把二进制代码存储在内存中，然后直接运行。</p>
+
+
+
+<p>如果要生成一个可执行文件，只需要在开头加入这样的声明：</p>
+
+
+
+<pre class="wp-block-code"><code>$ generate "&lt;生成位置&gt;" ;</code></pre>
+
+
+
+<p>生成位置可以是相对位置，也可以是绝对位置，比如在程序的同目录下生成就是这样：</p>
+
+
+
+<pre class="wp-block-code"><code>$ generate "/bin" ;</code></pre>
+
+
+
+<h3 class="wp-block-heading">第十二章：实战</h3>
+
+
+
+<p>要求：制作一个实时时钟显示在屏幕（视野）的左上角。</p>
+
+
+
+<p>思路：调用<code>system</code>库循环获取时间，在使用<code>iris</code>库显示出来。</p>
+
+
+
+<p>代码：</p>
+
+
+
+<pre class="wp-block-code"><code>$ mode compile ;
+$ generate "/bin" ;
+$ import "system" ;
+$ import "iris" ;
+
+defined function auto_int main() do
+    iris.add.window (name -> "clock", title -> "clock", location -> "above-lift", height -> 14, width -> 60, units -> "px") ; //创建一个窗口，位置在左上角，高5px，宽60px
+    iris.clock.background_transparency (True) ;  //更改窗口背景的透明度为透明
+    iris.clock.add.text (color -> "#FFFFFF", size -> 14, units -> "px") ; //创建一个文本，颜色白色，大小14px
+    while do
+        auto_int second -> system.time.second() ;  //获取秒
+        auto_int minute -> system.time.minute() ;  //获取分钟
+        auto_int hour -> system.time.hour() ;  //获取小时
+        auto_str time -> hour + ":" + minute + ":" + second ;  //将以上三种变量整合到一个字符串
+        iris.clock.text.content (time) ; //文本变成time变量的内容
+    end
+end</code></pre>
+]]></content:encoded>
+					
+					<wfw:commentRss>https://blog.pinpe.top/%e3%80%90%e6%9e%b6%e7%a9%ba-%e4%bc%aa%e6%96%87%e6%a1%a3%e3%80%91pinkshell%e7%bc%96%e8%af%91%e6%a8%a1%e5%bc%8f%e5%bf%ab%e9%80%9f%e5%85%a5%e9%97%a8/feed/</wfw:commentRss>
+			<slash:comments>0</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>关于核污水入海</title>
+		<link>https://blog.pinpe.top/%e5%85%b3%e4%ba%8e%e6%a0%b8%e6%b1%a1%e6%b0%b4%e5%85%a5%e6%b5%b7/</link>
+					<comments>https://blog.pinpe.top/%e5%85%b3%e4%ba%8e%e6%a0%b8%e6%b1%a1%e6%b0%b4%e5%85%a5%e6%b5%b7/#comments</comments>
+		
+		<dc:creator><![CDATA[Pinpe]]></dc:creator>
+		<pubDate>Fri, 25 Aug 2023 11:33:09 +0000</pubDate>
+				<category><![CDATA[议论]]></category>
+		<guid isPermaLink="false">https://blog.pinpe.top/?p=1111</guid>
+
+					<description><![CDATA[先说结论：中立或谨慎乐观。 最近日子政府干了什么事大家都晓得，大家也知道核污水是一种什么东西。我就不赘述了。  [&#8230;]]]></description>
+										<content:encoded><![CDATA[
+<p>先说结论：<strong>中立或谨慎乐观</strong>。</p>
+
+
+
+<p>最近日子政府干了什么事大家都晓得，大家也知道核污水是一种什么东西。我就不赘述了。</p>
+
+
+
+<p>不过大伙们不用特别焦虑，更不会出现废土末日。我不亲日，也没有收钱，请听我细细道来：</p>
+
+
+
+<h3 class="wp-block-heading">为何有这个结论？</h3>
+
+
+
+<ul>
+<li>别说世界环境了，中国到现在也没有什么大动作，只是暂停了日本的水产品进口。</li>
+
+
+
+<li>朝鲜对日本发射导弹、中国暂停日本的水产品进口、日本民众暴乱等等反抗行为都会打击日子政府的嚣张气焰。</li>
+
+
+
+<li><em>IAEA</em>的结论虽然存疑，但是还是<strong>有概率</strong>是真实的。</li>
+
+
+
+<li>根据日子政府的秉性，可能已经偷排很久了，只是现在公之于众了而已，在这期间生活并没有受到什么影响。<strong>（猜测）</strong></li>
+
+
+
+<li>现在还只是刚开始排，耳听不如一见，需要持续监测。</li>
+</ul>
+
+
+
+<h3 class="wp-block-heading">我们该怎么办？</h3>
+
+
+
+<ul>
+<li>持续地、坚决地反对核污水入海。</li>
+
+
+
+<li>保持镇定，相信中国。</li>
+
+
+
+<li>少购买日本产品，少购买未知地区的产品，<strong>特别是不要购买严重受污染地区的水产品</strong>。</li>
+
+
+
+<li>没有必要屯盐，中国的盐可以吃几代人。</li>
+
+
+
+<li>不要冲击日本大使馆，它们受外交豁免权保护。</li>
+</ul>
+
+
+
+<h3 class="wp-block-heading">附加内容：实体商品条形码鉴别</h3>
+
+
+
+<p>450到490开头代表日本国家。</p>
+
+
+
+<p>第4位数字到第7位数字代表产品生产商。</p>
+
+
+
+<p>第8位数字到第12位数字代表生产原材料信息及产品信息。</p>
+
+
+
+<span class='argon-hidden-text argon-hidden-text-background'>傻逼岸田文雄老子让你排海了吗？你他妈专门过来害人的是吧？</span>
+]]></content:encoded>
+					
+					<wfw:commentRss>https://blog.pinpe.top/%e5%85%b3%e4%ba%8e%e6%a0%b8%e6%b1%a1%e6%b0%b4%e5%85%a5%e6%b5%b7/feed/</wfw:commentRss>
+			<slash:comments>3</slash:comments>
+		
+		
+			</item>
+		<item>
+		<title>这个Windows怎么Mac里Mac气的？——MyDockFinder</title>
+		<link>https://blog.pinpe.top/%e8%bf%99%e4%b8%aawindows%e6%80%8e%e4%b9%88mac%e9%87%8cmac%e6%b0%94%e7%9a%84%ef%bc%9f-mydockfinder/</link>
+					<comments>https://blog.pinpe.top/%e8%bf%99%e4%b8%aawindows%e6%80%8e%e4%b9%88mac%e9%87%8cmac%e6%b0%94%e7%9a%84%ef%bc%9f-mydockfinder/#comments</comments>
+		
+		<dc:creator><![CDATA[Pinpe]]></dc:creator>
+		<pubDate>Fri, 18 Aug 2023 14:51:26 +0000</pubDate>
+				<category><![CDATA[资源]]></category>
+		<guid isPermaLink="false">https://blog.pinpe.top/?p=1074</guid>
+
+					<description><![CDATA[当你想买一个Mac，却发现最便宜的机型也接近一万元，根本买不起。 但是你确实羡慕Mac OS的优雅和颜值，于是 [&#8230;]]]></description>
+										<content:encoded><![CDATA[
+<p>当你想买一个Mac，却发现最便宜的机型也接近一万元，根本买不起。</p>
+
+
+
+<figure class="wp-block-image size-full"><img loading="lazy" decoding="async" width="511" height="634" src="https://blog.pinpe.top/wp-content/uploads/2023/08/屏幕截图-2023-08-18-203046.png" alt="" class="wp-image-1076" srcset="https://blog.pinpe.top/wp-content/uploads/2023/08/屏幕截图-2023-08-18-203046.png 511w, https://blog.pinpe.top/wp-content/uploads/2023/08/屏幕截图-2023-08-18-203046-242x300.png 242w" sizes="(max-width: 511px) 100vw, 511px" /></figure>
+
+
+
+<p>但是你确实羡慕Mac OS的优雅和颜值，于是你找到了一个平替，也是这篇文章的主角——<strong>MyDockFinder</strong></p>
+
+
+
+<h3 class="wp-block-heading">基础设置和软件导入</h3>
+
+
+
+<p>在桌面状态下，点击<code>Finder</code>中的<code>资源管理器</code>，找到<code>偏好设置</code>，如果是英文的，将默认语言改成简体中文。</p>
+
+
+
+<p>然后找到<code>开机启动方式</code>，选择想要的。（建议选择“<code>服务</code>”）</p>
+
+
+
+<p>然后打开<code>启动时自动隐藏任务栏</code>，并选择<code>隐藏所有屏幕任务栏</code>。</p>
+
+
+
+<p>最后找到<code>MyDock</code>类别中的<code>启动台</code>选项，找到<code>选择启动台显示的图标</code>，改成<code>添加的图标&amp;开始菜单</code>。</p>
+
+
+
+<p>如果想要在<code>Dock</code>中添加软件，可以打开资源管理器软件，把快捷方式、EXE文件、文件夹拖进去。</p>
+
+
+
+<h3 class="wp-block-heading">桌面配置</h3>
+
+
+
+<p>如果想要Mac OS的壁纸，可以去微软商店，下载<code>WinDynamicDesktop</code>，里面有很多壁纸，还可以自动随时间更换。</p>
+
+
+
+<p>如果<code>Dock</code>东西很多，可以添加分隔符区分，右击<code>Dock</code>，选择<code>添加分隔符</code>，然后把图标移动到分隔符里面。</p>
+
+
+
+<p>还可以去除桌面上的图标，使桌面更加简洁，提升颜值。</p>
+
+
+
+<figure class="wp-block-image size-large"><img loading="lazy" decoding="async" width="1024" height="576" src="https://blog.pinpe.top/wp-content/uploads/2023/08/屏幕截图-2023-08-18-190835-1024x576.png" alt="" class="wp-image-1078" srcset="https://blog.pinpe.top/wp-content/uploads/2023/08/屏幕截图-2023-08-18-190835-1024x576.png 1024w, https://blog.pinpe.top/wp-content/uploads/2023/08/屏幕截图-2023-08-18-190835-300x169.png 300w, https://blog.pinpe.top/wp-content/uploads/2023/08/屏幕截图-2023-08-18-190835-768x432.png 768w, https://blog.pinpe.top/wp-content/uploads/2023/08/屏幕截图-2023-08-18-190835-1536x864.png 1536w, https://blog.pinpe.top/wp-content/uploads/2023/08/屏幕截图-2023-08-18-190835.png 1920w" sizes="(max-width: 1024px) 100vw, 1024px" /><figcaption class="wp-element-caption">相似度高达90%</figcaption></figure>
+
+
+
+<div class="wp-block-argon-admonition admonition shadow-sm" style="border-left-color:#7889e8"><div class="admonition-title" style="background-color:#7889e833"><span>Tips</span></div><div class="admonition-body">建议添加图标遮罩，这样图标的大小就能统一了。</div></div>
+
+
+
+<h3 class="wp-block-heading">台前调度</h3>
+
+
+
+<p>当窗口较多，桌面就开始乱了：</p>
+
+
+
+<figure class="wp-block-image size-large"><img loading="lazy" decoding="async" width="1024" height="576" src="https://blog.pinpe.top/wp-content/uploads/2023/08/屏幕截图-2023-08-18-191100-1024x576.png" alt="" class="wp-image-1087" srcset="https://blog.pinpe.top/wp-content/uploads/2023/08/屏幕截图-2023-08-18-191100-1024x576.png 1024w, https://blog.pinpe.top/wp-content/uploads/2023/08/屏幕截图-2023-08-18-191100-300x169.png 300w, https://blog.pinpe.top/wp-content/uploads/2023/08/屏幕截图-2023-08-18-191100-768x432.png 768w, https://blog.pinpe.top/wp-content/uploads/2023/08/屏幕截图-2023-08-18-191100-1536x864.png 1536w, https://blog.pinpe.top/wp-content/uploads/2023/08/屏幕截图-2023-08-18-191100.png 1920w" sizes="(max-width: 1024px) 100vw, 1024px" /></figure>
+
+
+
+<p>这个软件有台前调度功能，在<code>Finder</code>中就可以打开：</p>
+
+
+
+<figure class="wp-block-image size-large"><img loading="lazy" decoding="async" width="1024" height="576" src="https://blog.pinpe.top/wp-content/uploads/2023/08/屏幕截图-2023-08-18-191156-1024x576.png" alt="" class="wp-image-1088" srcset="https://blog.pinpe.top/wp-content/uploads/2023/08/屏幕截图-2023-08-18-191156-1024x576.png 1024w, https://blog.pinpe.top/wp-content/uploads/2023/08/屏幕截图-2023-08-18-191156-300x169.png 300w, https://blog.pinpe.top/wp-content/uploads/2023/08/屏幕截图-2023-08-18-191156-768x432.png 768w, https://blog.pinpe.top/wp-content/uploads/2023/08/屏幕截图-2023-08-18-191156-1536x864.png 1536w, https://blog.pinpe.top/wp-content/uploads/2023/08/屏幕截图-2023-08-18-191156.png 1920w" sizes="(max-width: 1024px) 100vw, 1024px" /></figure>
+
+
+
+<h3 class="wp-block-heading">Finder</h3>
+
+
+
+<p><code>Finder</code>可以与一些软件联动，还可以模仿窗口的颜色，看起来浑然一体：</p>
+
+
+
+<figure class="wp-block-image size-large"><img loading="lazy" decoding="async" width="1024" height="576" src="https://blog.pinpe.top/wp-content/uploads/2023/08/屏幕截图-2023-08-18-191216-1024x576.png" alt="" class="wp-image-1090" srcset="https://blog.pinpe.top/wp-content/uploads/2023/08/屏幕截图-2023-08-18-191216-1024x576.png 1024w, https://blog.pinpe.top/wp-content/uploads/2023/08/屏幕截图-2023-08-18-191216-300x169.png 300w, https://blog.pinpe.top/wp-content/uploads/2023/08/屏幕截图-2023-08-18-191216-768x432.png 768w, https://blog.pinpe.top/wp-content/uploads/2023/08/屏幕截图-2023-08-18-191216-1536x864.png 1536w, https://blog.pinpe.top/wp-content/uploads/2023/08/屏幕截图-2023-08-18-191216.png 1920w" sizes="(max-width: 1024px) 100vw, 1024px" /></figure>
+
+
+
+<p>Edge软件的<code>Finder</code>就有<code>新建</code>、<code>收藏夹</code>、<code>历史记录</code>、<code>下载</code>等常用选项。</p>
+
+
+
+<h3 class="wp-block-heading">魔鬼特效（神奇效果）</h3>
+
+
+
+<p>当窗口最小化后，还有魔鬼特效（神奇效果）：</p>
+
+
+
+<figure class="wp-block-image size-large"><img loading="lazy" decoding="async" width="1024" height="576" src="https://blog.pinpe.top/wp-content/uploads/2023/08/屏幕截图-2023-08-18-191245-1024x576.png" alt="" class="wp-image-1093" srcset="https://blog.pinpe.top/wp-content/uploads/2023/08/屏幕截图-2023-08-18-191245-1024x576.png 1024w, https://blog.pinpe.top/wp-content/uploads/2023/08/屏幕截图-2023-08-18-191245-300x169.png 300w, https://blog.pinpe.top/wp-content/uploads/2023/08/屏幕截图-2023-08-18-191245-768x432.png 768w, https://blog.pinpe.top/wp-content/uploads/2023/08/屏幕截图-2023-08-18-191245-1536x864.png 1536w, https://blog.pinpe.top/wp-content/uploads/2023/08/屏幕截图-2023-08-18-191245.png 1920w" sizes="(max-width: 1024px) 100vw, 1024px" /></figure>
+
+
+
+<h3 class="wp-block-heading">缺点和性价比</h3>
+
+
+
+<p>这个软件在Steam售价<code>24</code>元，但是个人认为性价比不高。</p>
+
+
+
+<p>Bug奇多，有些时候动画特效卡甚至没有特效、整体流畅度较低、可能会出现意料之外的情况、听评论说还有可能崩溃，因此得出这个结论。</p>
+
+
+
+<h3 class="wp-block-heading">下载</h3>
+
+
+
+<p>官方网站：<a href="https://www.mydockfinder.com/">https://www.mydockfinder.com/</a></p>
+
+
+
+<p>Steam：<a href="https://store.steampowered.com/app/1787090/MyDockFinder/">https://store.steampowered.com/app/1787090/MyDockFinder/</a></p>
+
+
+
+<p>学习版下载：<a href="https://www.52pojie.cn/thread-1777635-1-1.html" data-type="link" data-id="https://www.52pojie.cn/thread-1777635-1-1.html">https://www.52pojie.cn/thread-1777635-1-1.html</a></p>
+]]></content:encoded>
+					
+					<wfw:commentRss>https://blog.pinpe.top/%e8%bf%99%e4%b8%aawindows%e6%80%8e%e4%b9%88mac%e9%87%8cmac%e6%b0%94%e7%9a%84%ef%bc%9f-mydockfinder/feed/</wfw:commentRss>
+			<slash:comments>3</slash:comments>
+		
+		
+			</item>
+	</channel>
+</rss>
