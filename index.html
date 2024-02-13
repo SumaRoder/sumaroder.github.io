@@ -88,14 +88,15 @@
             var HeadBar0 = document.getElementById("header0");
             window.addEventListener("scroll", function() {
                 if (window.scrollY > 0) {
-                    HeadBar.classList.add("scroll");
-                    HeadBar0.classList.add("scroll");
+                    HeadBar.classList.add("scroll");    
                     if (window.scrollY >= 61) {
                         HeadBar0.style.top = "0";
                         HeadBar0.style.position = "fixed";
+                        HeadBar0.classList.add("scroll");
                     } else {
                         HeadBar0.style.position = "absolute";
                         HeadBar0.style.top = "61px";
+                        HeadBar0.classList.remove("scroll");
                     }
                 } else {
                     HeadBar.classList.remove("scroll");
@@ -105,7 +106,7 @@
             });
         </script>
         <section>
-            <div id="activitycontent" class="fade-in">
+            <div id="activitycontent" style="margin-top: 60px" class="fade-in">
                 <div class="card" id="userCard" style="position: relative;">
                     <div style="position: relative;left: 0;">
                         <img style="border-radius: 50%;margin: auto;" src="http://q1.qlogo.cn/g?b=qq&nk=1493813167&s=100" />
