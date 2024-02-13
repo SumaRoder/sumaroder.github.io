@@ -203,7 +203,10 @@
                     </div>
                 </div>
             </p>-->
-            <p class="title" style="text-align: center;">{{ development_name }}</p>
+            <p class="title" style="text-align: center;"></p>
+            <script>
+            $("#header .title").html(development_name);
+            </script>
             <p style="float: right;top: 0;bottom: 0;margin-bottom: 20px;position: absolute;top: 35%;left: 90%;transform: translate(-90%, -50%);" id="openBtn">主题</p>
             <div id="popup" class="popup">
                 <div class="popup-content">
