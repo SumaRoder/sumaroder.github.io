@@ -5,7 +5,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
         <script src="https://cdn.staticfile.org/jquery/3.6.0/jquery.min.js"></script>
         <script src="https://cdn.staticfile.org/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
-        <title>接口列表 | {{ development_name }}</title>
+        <title>接口列表</title>
         <script>
             var OriginTitile = document.title;
             var titleTime;
@@ -13,8 +13,7 @@
                 if (document.hidden) {
                     document.title = '(つェ⊂)我藏好了哦~ ' + OriginTitile;
                     clearTimeout(titleTime);
-                }
-                else {
+                } else {
                     document.title = '(*´∇｀*) 被你发现啦~ ' + OriginTitile;
                     titleTime = setTimeout(function() {
                         document.title = OriginTitile;
@@ -120,93 +119,7 @@
     <body>
         <script src="/shares/js/click.js"></script>
         <header id="header">
-            <!--<p id="titleheader" style="font-size: 30px;" href="#">
-                <p id="menu">≡</p>
-                <div class="bg">
-                    <div id="menuWindow" class="menuWindow">
-                        <div class="menuWindow-content">
-                            {% if not apis %}
-                                <div class="mc-empty" style="background-image: url(/shares/mc-empty.png);">
-                    				<div class="title">
-                    					尚未任何接口
-                    				</div>
-                    				<div class="description">
-                    					添加接口后，将显示在这里
-                    				</div>
-                    			</div>
-                			{% else %}
-                                {% for i in apis %}
-                                    <ul class="multilevelMenu">
-                                        <li>{{ i["name"] }}
-                                            <ul class="sub1">
-                                                <li>接口状态
-                                                    <ul class="sub2">
-                                                        <li>
-                                                            {% if i["maintenance"] == 0 %}
-                                                                正常
-                                                            {% elif i["maintenance"] == 1 %}
-                                                                维护
-                                                            {% else %}
-                                                                未知
-                                                            {% endif %}
-                                                        </li>
-                                                    </ul>
-                                                </li>
-                                                <li>接口文档
-                                                    <ul class="sub2">
-                                                        <li>
-                                                            {% if i["maintenance"] == 0 %}
-                                                                <a href="{{ i['src']}}" class="a">前往接口文档</a>
-                                                            {% elif i["maintenance"] == 1 %}
-                                                                <a href="#" onclick="alert('该接口正在维护中')" class="a">前往接口文档</a>
-                                                            {% else %}
-                                                                <a href="#" onclick="alert('该接口异常')" class="a">前往接口文档</a>
-                                                            {% endif %}
-                                                        </li>
-                                                    </ul>
-                                                </li>
-                                            </ul>
-                                        </li>
-                                        <!--<li>菜单2
-                                            <ul class="sub1">
-                                                <li>子菜单2.1</li>
-                                                <li>子菜单2.2</li>
-                                            </ul>
-                                        </li>--
-                                    </ul>
-                                {% endfor %}
-                            {% endif %}
-                            <script>
-                                const menuItems = document.querySelectorAll('.multilevelMenu > li');
-                                menuItems.forEach(item => {
-                                    item.addEventListener('click', () => {
-                                        const submenu1 = item.querySelector('.sub1');
-                                        submenu1.style.display = submenu1.style.display === 'none' ? 'block' : 'none';
-                                
-                                        const submenu2s = item.querySelectorAll('.sub2');
-                                        submenu2s.forEach(submenu2 => {
-                                            submenu2.style.display = 'none';
-                                        });
-                                    });
-                                });
-                            
-                                const submenu1Items = document.querySelectorAll('.sub1 > li');
-                                submenu1Items.forEach(item => {
-                                    item.addEventListener('click', (event) => {
-                                        event.stopPropagation();
-                                        const submenu2 = item.querySelector('.sub2');
-                                        submenu2.style.display = submenu2.style.display === 'none' ? 'block' : 'none';
-                                    });
-                                });
-                            </script>
-                        </div>
-                    </div>
-                </div>
-            </p>-->
-            <p class="title" style="text-align: center;"></p>
-            <script>
-            $("#header .title").html(development_name);
-            </script>
+            <p class="title" style="text-align: center;">SumaRoder</p>
             <p style="float: right;top: 0;bottom: 0;margin-bottom: 20px;position: absolute;top: 35%;left: 90%;transform: translate(-90%, -50%);" id="openBtn">主题</p>
             <div id="popup" class="popup">
                 <div class="popup-content">
@@ -225,6 +138,7 @@
             window.addEventListener("scroll", function() {
                 if (window.scrollY > 0) {
                     HeadBar.classList.add("scroll");
+                    HeadBar0.classList.add("scroll");
                     if (window.scrollY >= 61) {
                         HeadBar0.style.top = "0";
                         HeadBar0.style.position = "fixed";
@@ -240,55 +154,12 @@
             });
         </script>
         <section>
-            <!--<div class="window_bg">
-                <!-- 弹窗内容 -- >
-            	<div class="window_content">
-            		<p id="window_text">欢迎！</p>
-            	</div>
-            </div>-->
             <div id="activitycontent" class="fade-in">
-                <div style="color: white;width: 100%;font-weight: normal;text-align: center;margin-top: 55px;padding-top: 85px;height: 200px;background: url(/shares/1.jpeg) no-repeat;background-size: cover;">
-                    <h2>SumaAPI<h2>
-                    <p>
-                        {{ hitokoto }}
-                    </p>
+                <div style="margin:auto;">
+                    <img src="http://q.qlogo.cn/headimg_dl?dst_uin=1493813167&spec=640&img_type=jpg" />
+                    <span class="gradient-text">SumaRoder</span>
                 </div>
-                <span class="gradient-text"></span>
                 <div style="padding-top: 5px;"></div>
-                <div>
-                    {% if not apis %}
-                        <div class="mc-empty" style="background-image: url(/shares/mc-empty.png);">
-            				<div class="title">
-            					尚未任何接口
-            				</div>
-            				<div class="description">
-            					添加接口后，将显示在这里
-            				</div>
-            			</div>
-        			{% else %}
-                        {% for i in apis %}
-                            <div class="card">
-                                <div class="interface_status">
-                                    {% if i["maintenance"] == 0 %}
-                                        <h3 style="font-size: 28px;font-weight: 450;padding-top: 35px;">{{ i["name"] }}<em style="display: inline-block;font-size: 15px;background-color: #90EE90;border-radius: 5px;margin: 2px;font-style: normal;">正常</em></h3>
-                                    {% elif i["maintenance"] == 1 %}
-                                        <h3 style="font-size: 28px;font-weight: 450;padding-top: 35px;">{{ i["name"] }}<em style="display: inline-block;font-size: 15px;background-color: red;border-radius: 5px;margin: 2px;font-style: normal;">维护</em></h3>
-                                    {% else %}
-                                        <h3 style="font-size: 28px;font-weight: 450;padding-top: 35px;">{{ i["name"] }}<em style="display: inline-block;font-size: 15px;background-color: yellow;border-radius: 5px;margin: 2px;font-style: normal;">未知</em></h3>
-                                    {% endif %}
-                                </div>
-                                <p>{{ i["desc"] }}</p>
-                                {% if i["maintenance"] == 0 %}
-                                    <a href="{{ i['src']}}" class="a">More</a>
-                                {% elif i["maintenance"] == 1 %}
-                                    <a href="#" onclick="alert('该接口正在维护中')" class="a">More</a>
-                                {% else %}
-                                    <a href="#" onclick="alert('该接口异常')" class="a">More</a>
-                                {% endif %}
-                            </div>
-                        {% endfor %}
-                    {% endif %}
-                </div>
             </div>
         </section>
         <footer>
