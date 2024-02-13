@@ -4,6 +4,8 @@
  * Licensed under MIT
  */
 
+var development_name = "SumaRoder";
+
 var ua = window.navigator.userAgent;
 var chrome = ua.match(/Chrome\/([\d.]+)/) || ua.match(/CriOS\/([\d.]+)/);
 
