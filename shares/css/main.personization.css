@@ -4,6 +4,16 @@
  * Licensed under MIT
  */
 
+.card{
+    font-family: var(--bs-font-sans-serif) !important;
+    background-color: rgba(255, 255, 255, 0.3);
+    padding: 10px;
+    margin: auto;
+    //margin-bottom: 20px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.08);
+    width: 80%;
+    //align-items: center;
+}
 .card #userCard{
     text-align: center;
     padding: auto;
