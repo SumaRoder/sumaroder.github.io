@@ -135,7 +135,7 @@
                     </div>
                     <script>
                         fetch("http://test1.ysone.top:56623/notice?mode=2&key=雪白Bot最新版本")
-                            .then(function(response) {
+                            .then((response) => {
                                 $('.lasted').text("V"+response);
                             })
                             .catch(e => {
