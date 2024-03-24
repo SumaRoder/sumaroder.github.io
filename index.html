@@ -135,11 +135,14 @@
                     </div>
                     <script>
                         fetch("http://test1.ysone.top:56623/notice?mode=2&key=雪白Bot最新版本")
-                            .then(response => response.text())
-                            .then((data) => {
+                            .then(response => {
+                                return response.text();
+                            })
+                            .then(data => {
                                 $('.lasted').text("V"+data);
-                            },(error) => {
-                                $('.lasted').text(error);
+                            })
+                            .catch(error => {
+                                $('.lasted').text("未知");
                                 console.error('Error:', error);
                             });
                     </script>
