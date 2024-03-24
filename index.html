@@ -125,13 +125,23 @@
                 <div style="padding-top: 5px;"></div>
                 <div>
                     <div class="card">
-                        雪白Bot(继承 缘梦Java Qtool Version) For Serendipity. <br/>
-                        雪白愿言·血红怨言(原名SumaRoder)提供更新与维护，以下是版本代词解释 <br/>
+                        雪白Bot(继承 缘梦Java Qtool Version) For Serendipity. <br/><br/>
+                        雪白Bot是一款支持Serendipity模块的QQ Java脚本，由 雪白愿言·血红怨言。提供更新与维护，目前最新版本是 V<span class="lasted"></span> 。<br/><br/>
+                        以下是版本代词解释 <br/>
                         Hyperion 测试版，指无大更新，可理解为修复Bug。 <br/>
                         Stable 稳定版，指无大Bug，进行了一些完善。 <br/>
                         Alpha 测试版，简称为A测，通常是公测。 <br/>
                         Beta 测试版，简称为B测，通常是内测。
                     </div>
+                    <script>
+                        $.get("http://test1.ysone.top:56623/notice?mode=2&key=雪白Bot最新版本",function(data,status){
+                            if(status == 'success'){
+                                $('.lasted').text(data);
+                            }else{
+                                $('.lasted').text('未知');
+                            }
+                        });
+                    </script>
                 </div>
             </div>
         </section>
