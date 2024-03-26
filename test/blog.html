@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>博客网站</title>
+<style>
+  /* CSS 样式 */
+</style>
+</head>
+<body>
+
+<h1>欢迎来到我的博客</h1>
+
+<div id="blog-posts">
+  <!-- 这里将显示博客文章 -->
+</div>
+
+<h2>发表新文章</h2>
+<form id="blog-form">
+  <label for="title">标题：</label>
+  <input type="text" id="title" name="title" required><br>
+  <label for="content">内容：</label><br>
+  <textarea id="content" name="content" rows="4" cols="50" required></textarea><br>
+  <button type="submit">发布</button>
+</form>
+
+<script>
+  // 读取已有的博客文章数据
+  var blogData = localStorage.getItem('blogData');
+  var posts = blogData ? JSON.parse(blogData) : [];
+
+  function saveDataToLocalStorage(data) {
+    localStorage.setItem('blogData', JSON.stringify(data));
+  }
+
+  function renderPosts() {
+    var blogPosts = document.getElementById('blog-posts');
+    blogPosts.innerHTML = '';
+    posts.forEach(function(post) {
+      var postElement = document.createElement('div');
+      postElement.innerHTML = '<h3>' + post.title + '</h3><p>' + post.content + '</p>';
+      blogPosts.appendChild(postElement);
+    });
+  }
+
+  document.getElementById('blog-form').addEventListener('submit', function(event) {
+    event.preventDefault(); // 阻止表单默认提交行为
+
+    // 获取表单中的标题和内容
+    var title = document.getElementById('title').value;
+    var content = document.getElementById('content').value;
+
+    // 将用户提交的文章添加到数据中
+    posts.push({ title: title, content: content });
+    saveDataToLocalStorage(posts); // 保存到本地存储
+    renderPosts(); // 更新页面显示
+
+    // 清空表单
+    document.getElementById('title').value = '';
+    document.getElementById('content').value = '';
+  });
+
+  // 页面加载时渲染已有的文章
+  renderPosts();
+</script>
+
+</body>
+</html>
