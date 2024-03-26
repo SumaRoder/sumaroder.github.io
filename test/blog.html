@@ -119,12 +119,13 @@
                 </div>
                 <div style="padding-top: 5px;"></div>
                 <div id="blog-posts"></div>
-                <form id="blog-form">
-                    <label for="sender">标题：</label>
+                <form id="blog-form" style="margin: auto;">
+                    <h3>发表评论</h3>
+                    <label for="sender">发送者：</label>
                     <input type="text" id="sender" name="sender" required><br>
-                    <label for="content">内容：</label><br>
+                    <label for="content">发送内容：</label><br>
                     <textarea id="content" name="content" rows="4" cols="50" required></textarea><br>
-                    <button type="submit">发布</button>
+                    <button type="submit">发送</button>
                 </form>
                 <script>
                     // 读取已有的博客文章数据
