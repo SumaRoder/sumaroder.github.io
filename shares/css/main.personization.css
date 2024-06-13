@@ -74,11 +74,12 @@ body.light-mode #header0{
     z-index: 9998;
     background-color: white;
     transition: background-color 1s, text-shadow 1s;
+    box-shadow: 0 0 1px;
 }
 body.light-mode #header0.scroll{
     background-color: rgb(250, 245, 250);
     text-shadow: 4px 4px 4px rgba(0, 0, 0, 0.8);
-    box-shadow: 0 0 1px;
+    box-shadow: 0 0 2px;
 }
 body.light-mode .popup{
     display: none;
