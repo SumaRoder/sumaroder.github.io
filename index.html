@@ -1,186 +1,73 @@
-<!DOCTYPE html>
 <html>
     <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
-        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-        <meta name="referrer" content="no-referrer">
-        <script src="https://cdn.staticfile.org/jquery/3.6.0/jquery.min.js"></script>
-        <script src="https://cdn.staticfile.org/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
-        <title>雪白Bot</title>
-        <script>
-            var OriginTitile = document.title;
-            var titleTime;
-            document.addEventListener('visibilitychange', function() {
-                if (document.hidden) {
-                    document.title = '(つェ⊂)我藏好了哦~ ' + OriginTitile;
-                    clearTimeout(titleTime);
-                }
-                else {
-                    document.title = '(*´∇｀*) 被你发现啦~ ' + OriginTitile;
-                    titleTime = setTimeout(function() {
-                        document.title = OriginTitile;
-                    }, 2000);
-                }
-            });
-        </script>
-        <link rel="shortcut icon" href="http://q1.qlogo.cn/g?b=qq&nk=1493813167&s=48">
-        <link rel="stylesheet" href="/shares/css/main.css">
-        <link rel="stylesheet" href="/shares/css/main.personization.css">
-        <meta name="keywords" content="雪白Bot,SnowWhiteBot,SnowWhiteBotJava,雪光白月">
-        <meta name="description" content="Designed by 雪光白月·EverySuma.">
-        <style>
-            .mc-empty{
-                box-sizing: border-box;
-                width: 100%;
-                margin-top: 80px;
-                padding: 108px 16px 64px;
-                text-align: center;
-                background-repeat: no-repeat;
-                background-position: top;
-            }
-            .mc-empty .title{
-                margin-bottom: 20px;
-                color: rgba(0,0,0,.54);
-                font-size: 18px;
-            }
-            .mc-empty .description{
-                margin-bottom: 20px;
-                color: rgba(0,0,0,.54);
-                font-size: 15px;
-                line-height: 24px;
-            }
-            center em{
-                font-style: normal;
-                font-weight: bold;
-            }
-            section::after {
-                content: "";
-                display: block;
-                height: 100px; /* 调整高度以适应你的需求 */
-            }
-            
-        </style>
+        <meta charset="UTF-8">
+        <title>SumaRoder</title>
+        <link rel="stylesheet" href="https://unpkg.com/mdui@2/mdui.css">
+        <link rel="stylesheet" href="/shares/css/style.css">
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+        <script src="https://unpkg.com/mdui@2/mdui.global.js"></script>
     </head>
     <body>
-        <script src="/shares/js/click.js"></script>
-        <header id="header">
-            <p class="title" style="text-align: center;">雪白Bot</p>
-            <p style="float: right;top: 0;bottom: 0;margin-bottom: 20px;position: absolute;top: 35%;left: 90%;transform: translate(-90%, -50%);" id="openBtn">主题</p>
-            <div id="popup" class="popup">
-                <div class="popup-content">
-                    <p>请选择模式：</p>
-                    <button id="lightModeBtn">亮色模式</button>
-                    <button id="darkModeBtn">暗色模式</button>
-                </div>
-            </div>
-        </header>
-        <header id="header0">
-            
-        </header>
+        <mdui-container>
+            <!--<mdui-dialog
+                close-on-overlay-click
+                headline="这个雨夜..."
+                description="你好呀，这是SumaRoder的小站。"
+                id="announcement"
+            >
+                <mdui-button slot="action" variant="text" class="no">略略略，我不晓得</mdui-button>
+                <mdui-button slot="action" variant="tonal" class="yes">我已晓得</mdui-button>
+            </mdui-dialog>-->
+            <header>
+                <mdui-top-app-bar scroll-behavior="elevate">
+                    <mdui-button-icon id="menu" icon="menu"></mdui-button-icon>
+                    <mdui-top-app-bar-title>SumaRoder</mdui-top-app-bar-title>
+                    <div style="flex-grow: 1"></div>
+                    <mdui-icon-light-mode></mdui-icon-light-mode>
+                    <mdui-button-icon icon="more_vert"></mdui-button-icon>
+                </mdui-top-app-bar>
+                <mdui-navigation-drawer modal close-on-esc close-on-overlay-click>
+                    <mdui-collapse>
+                        <mdui-collapse-item value="item-1">
+                            <mdui-list-item slot="header" icon="near_me">Item 1</mdui-list-item>
+                            <div style="margin-left: 2.5rem">
+                                <mdui-list-item>Item 1 - subitem</mdui-list-item>
+                            </div>
+                        </mdui-collapse-item>
+                        <mdui-collapse-item value="item-2">
+                            <mdui-list-item slot="header" icon="near_me">Item 2</mdui-list-item>
+                            <div style="margin-left: 2.5rem">
+                                <mdui-list-item>Item 2 - subitem</mdui-list-item>
+                            </div>
+                        </mdui-collapse-item>
+                    </mdui-collapse>
+                </mdui-navigation-drawer>
+            </header>
+            <section>
+                <div id="top"></div>
+                你好捏，这里还是空气。
+            </section>
+            <footer>
+                <mdui-bottom-app-bar>
+                    <mdui-avatar src="http://q.qlogo.cn/headimg_dl?dst_uin=1493813167&spec=640&img_type=jpg"></mdui-avatar>
+                    <div style="flex-grow: 1"></div>
+                    <mdui-fab href="/write" icon="add"></mdui-fab>
+                </mdui-bottom-app-bar>
+                <div id="end"></div>
+            </footer>
+        </mdui-container>
         <script>
-            var HeadBar = document.getElementById("header");
-            var HeadBar0 = document.getElementById("header0");
-            window.addEventListener("scroll", function() {
-                if (window.scrollY > 0) {
-                    HeadBar.classList.add("scroll");
-                    if (window.scrollY >= 61) {
-                        HeadBar0.style.top = "0";
-                        HeadBar0.style.position = "fixed";
-                    } else {
-                        HeadBar0.style.position = "absolute";
-                        HeadBar0.style.top = "61px";
-                    }
-                } else {
-                    HeadBar.classList.remove("scroll");
-                    HeadBar0.style.position = "absolute";
-                    HeadBar0.style.top = "61px";
-                }
+            mdui.setColorScheme('#55ff00');
+            /*const announcement = document.getElementById('announcement');
+            announcement.querySelector('.no').addEventListener('click', function () {
+                announcement.open = false;
             });
-        </script>
-        <section>
-            <div id="activitycontent" class="fade-in">
-                <div style="color: white;width: 100%;font-weight: normal;text-align: center;margin-top: 45px;padding-top: 15px;height: 20px;">
-                    <!--
-                        恶魔萝莉 https://img2.imgtp.com/2024/03/25/k4xQV3Ri.jpg background: url(https://1.imgpic.cn/2024/06/13/666af88aa59a7.jpg) no-repeat;background-size: cover;
-                        刻晴 https://img2.imgtp.com/2024/03/25/Xe0kaLFm.jpg
-                        赛博朋克萝莉 https://img2.imgtp.com/2024/03/25/p0afPwgn.jpg
-                    --
-                    <h2>雪白Bot - 新一代 缘梦Java<h2>
-                    <p class='hitokoto'></p>
-                    <script>
-                        $.get("https://v1.hitokoto.cn/",function(data,status){
-                            if(status == 'success'){
-                                $('.hitokoto').text(data.hitokoto);
-                            }else{
-                                $('.hitokoto').text('获取出错！');
-                            }
-                        });
-                    </script>-->
-                </div>
-                <span class="gradient-text"></span>
-                <div style="padding-top: 5px;"></div>
-                <div>
-                    <div class="card">
-                        雪白Bot(继承 缘梦Java Qtool Version) For Serendipity. <br/>
-                        <!--<h3>[停更通知]雪白Bot(EnglishName. SnowBot)将无限期停止更新，目前项目维护者为大家开放这个仓库提供结束版本下载，有意愿的用户我们允许解加密修改，但不能进行商用，更多信息请留意此网站内容。<br/>[StopUpdateNotice]SnowBot (ChineseName. 雪白Bot) will stop updating indefinitely, the current project maintainer for everyone to open this repository to provide the end of the version download, willing users we allow the de-encryption modification, but not commercially, for more information, please pay attention to the content of this website.<h3><br/>-->
-                        <h3>你好，雪白Bot - 项目重启计划.</h3>
-                        <a href="https://gitee.com/sumaroder/SnowWhite_Bot_Java">向着胜利，前进！</a><br/><br/>
-                        雪白Bot是一款支持Serendipity模块的QQ Java脚本，原由 雪白愿言·血红怨言 提供更新与维护，现由 雪光白月·Convenant 发布更新。<br/><br/>
-                        某些人啊，别tm偷我的代码改个名字就变成你的了，就拿那个画布运行状态说说，改名改签字然后就你的了，什么意思啊你，虽然我用的是MIT开源，但是你也不能这么厚颜无耻吧，夺笋呐。
-                    </div>
-                    <div class="card">
-                        <div class="card">
-                            <!--<h3>关于 雪白Bot</h3>
-                            雪白Bot在Qtool时期就已有奠基，而于Tencent对QQBot/QQModule的不断施压以及NTQQ框架的退出，迫使Qtool已经在NT 90X版本时停止更新。<br/>
-                            但是，这并不会抵挡住QQBot/QQModule的开发者不断进攻。<br/>
-                            在Qtool统治Java脚本的阶段土崩瓦解后，由刺痛等大佬对NTQQ的框架进行了解后，Serendipity诞生了。<br/>
-                            2024.02.12，旧 缘梦Java 被更正而修正大多Bug与漏洞。<br/>
-                            2024.03.10，SumaRoder 更名至 雪光白月 ，于是，缩写为 雪白 被作为新的名词，代入了 SumaRoder 自写的脚本中。此时，新 雪白Bot 继承于 旧 缘梦Java 出现了。<br/>
-                            2023.03.21，第一个开源的雪白Bot 1.0 Stable，在Gitee上开源了。<br/>
-                            时至今日，旧 缘梦Java 的旧日幻影，还在Qtool目录留有一份，而 新 雪白Bot 也持续在稳定更新。让我们对Qtool与 旧 缘梦Java 的付出默默点个赞...-->
-                            <h3 style="text-align: center;">现作者 对 原作者 的一封信</h3>
-                            <p style="text-indent: 2em;">问候，雪白愿言·血红怨言！</p>
-                            <p style="text-indent: 2em;">我是 雪白Bot 现作者，我可能没有太多精力放在这个项目上。而驱使我更新的动力绝大部分来自项目本身可能4000+行的代码，总体来说也可以说是我的虚荣心在作祟。由于我身体不好且近视等原因，我可能不会再进行大的更新了，针对您先前留下的一段代码，即 插件加载，这段代码以我的技术可能不足以更新甚至优化，而若不优化，每次加载时间都在5秒以上(左右)这么说，我的兴趣逐渐被冲散，所以我基本不在更新了，您先前留下的AI画图(功能名 SP#画图)我用不了，但也不能实现我心中所想的样子，因为安卓14的私有目录限制极其残忍，直接阉割掉了下载等功能，而Root有直接性变砖的风险，我没有办法管理。这里算一次简单的说法解释为什么我不再更新大版本了。</p>
-                            <p style="text-indent: 2em;">祝您身体健康。</p>
-                            <p style="text-align: right;">Yours.<br/>雪光白月·SnowConvenant。</p>
-                        </div>
-                        <div class="card">
-                            Abandon? What is Abandonment? Why give up? Perhaps, we just lack persistence, persistence is not necessarily victory, but victory, must be persistence! Stick to the goal! It will lead us to victory! I, no, we, persevere!<br/>
-                            放弃?什么是放弃?为什么要放弃?也许，我们只是缺少坚持罢了，坚持不一定胜利，但胜利，一定是坚持！有目标的坚持！它会带领我们走向胜利！我，不，我们，坚持不懈！
-                        </div>
-                    </div>
-                    <script>
-                        fetch("http://test1.ysone.top:56623/notice?mode=2&key=雪白Bot最新版本",{
-                            method: 'GET',
-                            mode: 'cors',
-                            credentials: 'include',
-                        })
-                            .then(response => {
-                                return response.text();
-                            })
-                            .then(data => {
-                                $('.lasted').text("V"+data);
-                            })
-                            .catch(error => {
-                                $('.lasted').text("未知");
-                                console.error('Error:', error);
-                            });
-                    </script>
-                </div>
-            </div>
-        </section>
-        <footer>
-            <center style="margin-top: 5px;margin-bottom: 15px;font-size: 10px;">
-                Copyright © <em>雪白Bot</em><br/>All rights reserved. <img src="http://q1.qlogo.cn/g?b=qq&nk=1493813167&s=100" style="width: 10px;height: 10px;border-radius: 50%;" /><em>雪白愿言·血红怨言[雪光白月·SnowConvenant]</em>.<br/>
-            </center>
-        </footer>
-        <script src="/shares/js/main.js"></script>
-        <script>
-            if ($.cookie('theme') === 'dark-mode') {
-                $('body').addClass('dark-mode');
-            } else {
-                $('body').addClass('light-mode');
-            }
+            announcement.querySelector('.yes').addEventListener('click', function () {
+                announcement.open = false;
+            });
+            document.getElementById("announcement").open = true;*/
+            const navigationDrawer = document.querySelector("mdui-navigation-drawer");
+            document.getElementById('menu').addEventListener('click', () => navigationDrawer.open = true);
         </script>
     </body>
 </html>

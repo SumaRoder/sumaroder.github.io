@@ -1,0 +1,247 @@
+/*
+ * CodeWriter SumaRoder(2023.9.28)
+ * Copyright 2023 SumaRoder
+ * Licensed under MIT
+ */
+
+.card{
+    background-color: rgba(255, 255, 255, 0.3);
+    padding: 10px;
+    margin: auto;
+    margin-bottom: 20px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.08);
+    width: 80%;
+    //align-items: center;
+}
+.card #userCard{
+    text-align: center;
+    padding: auto;
+    align-items: center;
+}
+.card a{
+    display: inline-block;
+    //font-size: 15px;
+    padding: 10px;
+    text-align: center;
+    background-clip: text;
+    -webkit-background-clip: text; /* 兼容WebKit浏览器 */
+    color: transparent;
+    background-image: linear-gradient(to right, green, blue, purple);
+}
+.bg{
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.8);
+    z-index: 9999;
+}
+
+
+
+
+body.light-mode{
+    color: black;
+}
+body.light-mode #header{
+    position: absolute;
+    display: inline;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 60px;
+    border-bottom: 1px solid #fcfdfc;
+    z-index: 9999;
+    background-color: white;
+    transition: background-color 1s, text-shadow 1s;
+}
+body.light-mode #header.scroll{
+    background-color: rgb(250, 245, 250);
+    text-shadow: 4px 4px 4px rgba(0, 0, 0, 0.8);
+    box-shadow: 0 0 1px;
+}
+body.light-mode #header0{
+    position: absolute;
+    display: inline;
+    top: 61px;
+    left: 0;
+    width: 100%;
+    height: 35px;
+    border-top: 1px solid #fcfdfc;
+    border-bottom: 1px solid #fcfdfc;
+    z-index: 9998;
+    background-color: white;
+    transition: background-color 1s, text-shadow 1s;
+    box-shadow: 0 0 1px;
+}
+body.light-mode #header0.scroll{
+    background-color: rgb(250, 245, 250);
+    text-shadow: 4px 4px 4px rgba(0, 0, 0, 0.8);
+    box-shadow: 0 0 2px;
+}
+body.light-mode .popup{
+    display: none;
+    position: fixed;
+    float: right;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.8);
+    z-index: 9999;
+    transition: background-color 1s, text-shadow 1s, color 1s;
+}
+body.light-mode .popup-content{
+    position: absolute;
+    background-color: white;
+    border: 1px solid black;
+}
+body.light-mode .menuWindow{
+    position: fixed;
+    display: none;
+    top: 0;
+    left: 0;
+    width: 50%;
+    height: 100%;
+    background-color: white;
+    z-index: 9999;
+    transition: background-color 1s, text-shadow 1s, color 1s;
+}
+body.light-mode .menuWindow-content{
+    position: fixed;
+    display: none;
+    background-color: white;
+    font-size: 26px;
+}
+body.light-mode .popupa{
+    display: none;
+    position: fixed;
+    float: right;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.8);
+    z-index: 9999;
+    transition: background-color 1s, text-shadow 1s, color 1s;
+}
+body.light-mode .popupa-content{
+    position: absolute;
+    background-color: white;
+    border: 1px solid black;
+}
+body.light-mode .card{
+    box-shadow: 0 0 4px;
+}
+body.light-mode .card a{}
+
+
+
+
+body.dark-mode{
+    background-color: rgba(5,7,15,0.95);
+    color: rgba(255,255,255,0.8);
+    text-shadow: 3px 3px 3px rgba(128, 128, 128, 0.8);
+}
+body.dark-mode #header{
+    position: absolute;
+    display: inline;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 60px;
+    z-index: 9999;
+    background-color: rgba(5,7,15,0.95);
+    color: rgba(255,255,255,0.8);
+    transition: background-color 1s, text-shadow 1s, color 1s;
+}
+body.dark-mode #header.scroll{
+    background-color: rgba(5,7,15,0.95);
+    color: rgba(255,255,255,0.8);
+    text-shadow: 3px 3px 3px rgba(128, 128, 128, 0.8);
+    box-shadow: 0 0 1px;
+}
+body.dark-mode #header0{
+    position: absolute;
+    display: inline;
+    top: 61px;
+    left: 0;
+    width: 100%;
+    height: 35px;
+    z-index: 9998;
+    background-color: rgba(5,7,15,0.95);
+    color: rgba(255,255,255,0.8);
+    transition: background-color 1s, text-shadow 1s;
+}
+body.dark-mode #header0.scroll{
+    background-color: rgba(5,7,15,0.95);
+    color: rgba(255,255,255,0.8);
+    text-shadow: 3px 3px 3px rgba(128, 128, 128, 0.8);
+    box-shadow: 0 0 1px;
+}
+body.dark-mode .popup{
+    display: none;
+    position: fixed;
+    float: right;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(5,7,15,0.95);
+    z-index: 9999;
+    transition: background-color 1s, text-shadow 1s, color 1s;
+}
+body.dark-mode .popup-content{
+    position: absolute;
+    background-color: rgba(5,7,15,0.95);
+    color: rgba(255,255,255,0.8);
+    border: 1px solid black;
+}
+body.dark-mode .menuWindow{
+    position: fixed;
+    display: none;
+    top: 0;
+    left: 0;
+    width: 50%;
+    height: 100%;
+    background-color: rgba(5,7,15,0.95);
+    color: rgba(255,255,255,0.8);
+    z-index: 9999;
+    transition: background-color 1s, text-shadow 1s, color 1s;
+}
+body.dark-mode .menuWindow-content{
+    position: fixed;
+    display: none;
+    background-color: rgba(5,7,15,0.95);
+    color: rgba(255,255,255,0.8);
+    font-size: 26px;
+}
+body.dark-mode .popupa{
+    display: none;
+    position: fixed;
+    float: right;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(5,7,15,0.95);
+    z-index: 9999;
+    transition: background-color 1s, text-shadow 1s, color 1s;
+}
+body.dark-mode .popupa-content{
+    position: absolute;
+    background-color: rgba(5,7,15,0.95);
+    color: rgba(255,255,255,0.8);
+    border: 1px solid black;
+}
+body.dark-mode .card{
+    background-color: rgba(5,7,15,0.6);
+    color: rgba(255,255,255,0.8);
+    text-shadow: 4px 4px 4px rgba(128, 128, 128, 0.8);
+}
+body.dark-mode .card a{
+    color: rgba(255,255,255,0.8);
+    text-shadow: 4px 4px 4px rgba(128, 128, 128, 0.8);
+}

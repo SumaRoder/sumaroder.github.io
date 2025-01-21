@@ -1,0 +1,75 @@
+@media screen and (not (min-width: 1400px)){
+    html, body{
+        font-size: 2.5rem !important;
+        padding: 1rem !important;
+    }
+    p, ul li, #switch-text, mdui-card{
+        font-size: 1rem !important;
+    }
+    mdui-text-field{
+        height: 3.3rem !important;
+    }
+    #switch span{
+        margin-top: 0.4rem;
+    }
+}
+
+@font-face{
+    font-family: font;
+    src: url('HarmonyOS_Sans_SC_Regular.ttf');
+}
+
+html, body{
+    padding-left: 13rem;
+    padding-right: 13rem;
+    font-family: font;
+}
+
+h1, h2{
+    text-align: center;
+}
+
+h1{
+    font-size: 3rem;
+}
+
+h2{
+    font-size: 1.5rem;
+}
+
+mdui-card{
+    width: 100%;
+    margin-top: 2rem;
+    padding-left: 2rem;
+    padding-right: 2rem;
+}
+
+mdui-text-field{
+    height: 60px;
+}
+
+mdui-text-field, #switch{
+    margin-top: 2rem;
+}
+
+#top, #end{
+    height: 5rem;
+}
+
+#center{
+    text-align: center;
+}
+
+#lot{
+    height: 20rem !important;
+}
+
+#switch{
+    span{
+        margin-top: 0.5rem;
+        float: left;
+    }
+    mdui-switch{
+        float: right;
+    }
+}
