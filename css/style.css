@@ -1,0 +1,87 @@
+/*
+  作者: 缘(QQ:1493813167)
+  页面: http://sumaroder.bailanyun.cn/
+  语言: CSS
+  用处: 页面主布局文件
+  版权所有，请勿删除
+*/
+
+@charset "utf-8";
+@font-face{
+    font-family: "HarmonyOS_Sans";
+    src: url('../font/HarmonyOS_Sans_SC_Regular.ttf') format('truetype');
+}
+@font-face {
+    font-family: "Pacifico";
+    src: url('../font/Pacifico.ttf') format('truetype');
+}
+
+html, body{
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    background-color: #333;
+    overflow: hidden;
+    font-family: 'HarmonyOS_Sans', sans-serif;
+    background: url("../img/bg2.jpg") no-repeat center center fixed;
+    -webkit-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+}
+
+/* 警告: 以下资源只能在id选择器为container的div中使用 */
+div#container{
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    color: white;
+    justify-content: center;
+    align-items: center;
+    div#head{
+        width: 250px;
+        margin: auto;
+        padding: auto;
+        margin-bottom: 20px;
+        img#my-head{
+            width: 30%;
+            aspect-ratio: 1 / 1;
+            border-radius: 50%;
+            float: left;
+        }
+        h3#my-name{
+            width: 70%;
+            font-size: 4.75rem;
+            margin: 0;
+        }
+    }
+    div.card{
+        position: relative;
+        background-color: rgba(255, 255, 255, 0.5);
+        width: 95%;
+        min-height: 65%;
+        margin: auto;
+        text-align: center;
+        border-radius: 8px;
+        overflow: hidden;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    div.card.cot::before {
+        content: "“";
+        position: absolute;
+        top: 10px;
+        left: 10px;
+        font-size: 24px;
+        padding: 10px;
+    }
+    div.card.cot::after {
+        content: "”";
+        position: absolute;
+        bottom: -10px;
+        right: 10px;
+        font-size: 24px;
+        padding: 10px;
+    }
+}
