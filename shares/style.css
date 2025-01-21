@@ -1,16 +1,16 @@
 @media screen and (not (min-width: 1400px)){
     html, body{
-        font-size: 2.5rem !important;
-        padding: 1rem !important;
+        font-size: 1rem !important;
+        padding: 0.4rem !important;
     }
     p, ul li, #switch-text, mdui-card{
-        font-size: 1rem !important;
+        font-size: 0.4rem !important;
     }
     mdui-text-field{
-        height: 3.3rem !important;
+        height: 1.32rem !important;
     }
     #switch span{
-        margin-top: 0.4rem;
+        margin-top: 0.16rem;
     }
 }
 
