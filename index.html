@@ -9,15 +9,6 @@
     </head>
     <body>
         <mdui-container>
-            <!--<mdui-dialog
-                close-on-overlay-click
-                headline="这个雨夜..."
-                description="你好呀，这是SumaRoder的小站。"
-                id="announcement"
-            >
-                <mdui-button slot="action" variant="text" class="no">略略略，我不晓得</mdui-button>
-                <mdui-button slot="action" variant="tonal" class="yes">我已晓得</mdui-button>
-            </mdui-dialog>-->
             <header>
                 <mdui-top-app-bar scroll-behavior="elevate">
                     <mdui-button-icon id="menu" icon="menu"></mdui-button-icon>
@@ -45,27 +36,23 @@
             </header>
             <section>
                 <div id="top"></div>
-                你好捏，这里还是空气。
+                <div id="container">
+                    <div>
+                        <div class="my-head"><img src="http://q.qlogo.cn/headimg_dl?dst_uin=1493813167&spec=640&img_type=jpg"/></div>
+                        <h3 class="my-name">SumaRoder</h3>
+                    </div>
+                    
+                    <div class="card">
+                        <p class="title">Title</p>
+                        <p class="author">Author</p>
+                        <p class="content">Content</p>
+                    </div>
+                </div>
             </section>
-            <footer>
-                <mdui-bottom-app-bar>
-                    <mdui-avatar src="http://q.qlogo.cn/headimg_dl?dst_uin=1493813167&spec=640&img_type=jpg"></mdui-avatar>
-                    <div style="flex-grow: 1"></div>
-                    <mdui-fab href="/write" icon="add"></mdui-fab>
-                </mdui-bottom-app-bar>
-                <div id="end"></div>
-            </footer>
+            <footer></footer>
         </mdui-container>
         <script>
             mdui.setColorScheme('#55ff00');
-            /*const announcement = document.getElementById('announcement');
-            announcement.querySelector('.no').addEventListener('click', function () {
-                announcement.open = false;
-            });
-            announcement.querySelector('.yes').addEventListener('click', function () {
-                announcement.open = false;
-            });
-            document.getElementById("announcement").open = true;*/
             const navigationDrawer = document.querySelector("mdui-navigation-drawer");
             document.getElementById('menu').addEventListener('click', () => navigationDrawer.open = true);
         </script>
