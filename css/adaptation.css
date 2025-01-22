@@ -2,20 +2,24 @@
   作者: 缘(QQ:1493813167)
   页面: http://sumaroder.bailanyun.cn/
   语言: CSS
+  文件: adaptation.css
   用处: 页面布局适配样式文件
   版权所有，请勿删除
 */
 
 @charset "utf-8";
 
-@media (max-width: 600px) {}
-@media (min-width: 601px) and (max-width: 1024px) {
-    div#head{
-        width: 500px;
-    }
-}
-@media (min-width: 1025px) {
-    div.card {
-        width: 992px;
+@media screen and (not (min-width: 1400px)) {
+    div#container{
+        font-size: 16px;
+        div#head{
+            h3#my-name{
+                font-size: 76px;
+            }
+        }
+        div.card.cot::before,
+        div.card.cot::after {
+            font-size: 24px;
+        }
     }
 }
