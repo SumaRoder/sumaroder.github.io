@@ -12,20 +12,18 @@
 @media screen and (not (min-width: 600px)) {
     div#container{
         font-size: 16px;
-        div#head{
-            width: 250px;
-            h3#my-name{
-                font-size: 76px;
-            }
-        }
-        div.card.cot::before,
-        div.card.cot::after {
-            font-size: 24px;
-        }
     }
-    footer#copyright{
-        span#cr{
-            font-size: 14px;
-        }
+    div#container div#head{
+        width: 250px;
+    }
+    div#container div#head h3#my-name{
+        font-size: 76px;
+    }
+    div#container div.card.cot::before,
+    div#container div.card.cot::after {
+        font-size: 24px;
+    }
+    footer#copyright span#cr{
+        font-size: 14px;
     }
 }

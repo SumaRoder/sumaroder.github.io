@@ -44,65 +44,68 @@ div#container{
     color: white;
     justify-content: center;
     align-items: center;
-    div#head{
-        width: 500px;
-        margin: auto;
-        padding: auto;
-        margin-bottom: 20px;
-        img#my-head{
-            width: 30%;
-            aspect-ratio: 1 / 1;
-            border-radius: 50%;
-            float: left;
-        }
-        h3#my-name{
-            width: 70%;
-            font-size: 152px;
-            margin: 0;
-        }
-        p#my-sign{
-            font-family: "Pacifico";
-            text-align: center;
-            font-weight: bold;
-            color: #555;
-        }
-    }
-    div.card{
-        position: relative;
-        background-color: rgba(255, 255, 255, 0.5);
-        color: #333;
-        width: 95%;
-        min-height: 65%;
-        margin: auto;
-        text-align: center;
-        border-radius: 8px;
-        overflow: hidden;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        em{
-            font-family: "Pacifico";
-        }
-    }
-    div.card.cot::before {
-        content: "“";
-        color: #555;
-        position: absolute;
-        top: 10px;
-        left: 10px;
-        font-size: 48px;
-        padding: 10px;
-    }
-    div.card.cot::after {
-        content: "”";
-        color: #555;
-        position: absolute;
-        bottom: -10px;
-        right: 10px;
-        font-size: 48px;
-        padding: 10px;
+}
+
+div#head{
+    width: 500px;
+    margin: auto;
+    padding: auto;
+    margin-bottom: 20px;
+}
+div#head img#my-head{
+    width: 30%;
+    aspect-ratio: 1 / 1;
+    border-radius: 100%;
+    float: left;
+}
+div#head h3#my-name{
+    width: 70%;
+    font-size: 152px;
+    margin: 0;
+}
+div#head p#my-sign{
+    font-family: "Pacifico";
+    text-align: center;
+    font-weight: bold;
+    color: #555;
+}
+
+div.card{
+    position: relative;
+    background-color: rgba(255, 255, 255, 0.5);
+    color: #333;
+    width: 95%;
+    min-height: 65%;
+    margin: auto;
+    text-align: center;
+    border-radius: 8px;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    em{
+        font-family: "Pacifico";
     }
 }
+div.card.cot::before {
+    content: "“";
+    color: #555;
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    font-size: 48px;
+    padding: 10px;
+}
+div.card.cot::after {
+    content: "”";
+    color: #555;
+    position: absolute;
+    bottom: -10px;
+    right: 10px;
+    font-size: 48px;
+    padding: 10px;
+}
+
 footer#copyright{
     position; fixed;
     display: inline-block;
@@ -114,9 +117,10 @@ footer#copyright{
     background-color: rgba(255, 255, 255, 0.5) !important;
     color: #555;
     padding: 0;
-    span#cr{
-        top: 0;
-        margin: 0;
-        padding: 0;
-    }
+}
+
+footer#copyright span#cr{
+    top: 0;
+    margin: 0;
+    padding: 0;
 }

@@ -1,8 +1,0 @@
-@keyframes fade-in {
-    0% {
-        background: green;
-    }
-    100% {
-        background: white;
-    }
-}
