@@ -9,10 +9,11 @@
 
 @charset "utf-8";
 
-@media screen and (not (min-width: 1400px)) {
+@media screen and (not (min-width: 600px)) {
     div#container{
         font-size: 16px;
         div#head{
+            width: 250px;
             h3#my-name{
                 font-size: 76px;
             }
@@ -20,6 +21,11 @@
         div.card.cot::before,
         div.card.cot::after {
             font-size: 24px;
+        }
+    }
+    footer#copyright{
+        span#cr{
+            font-size: 14px;
         }
     }
 }
